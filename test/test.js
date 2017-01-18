@@ -23,31 +23,6 @@ it('dodaj 3+5', () => {
 });
 
 
-// it('dodaj 3+4', () => {
-// 	var res = 3+4;
-// 	expect(res).toBe(8);
-
-// });
-
-//  _id: { type: String },
-//   nazwa: { type: String, required: true },
-//   passwordhash: { type: String, required: true},
-//   imie: { type: String},
-//   nazwisko: { type: String}, 
-//   email: {
-//     type: String,
-//     required: true,
-//     match: /.+@.+\..+/,
-//     lowercase: true
-//   },
-//   data: { type: Date, default: Date.now }, 
-//   posty: [{ type : ObjectId, ref: 'Post' }],
-//   // liczba_postow {type int, default: 0}
-
-// };
-
-
-
 describe('uzytkownik', function() {
 	it('uzytkownik zostal zdefiniowany', function(done) { 
 		var u = new Uzytkownik({nazwa: "testAndrzej", imie: "Andrzej", nazwisko: "Kowalski", passwordhash: "jsjhjhhj"});
@@ -55,11 +30,20 @@ describe('uzytkownik', function() {
 		done();
 	});
 
-    it('validacja koczny sie bledem jesli imie nie zostalo zdefiniowane', function(done) {
+    it('validacja konczy sie bledem jesli nazwa nie zostalo zdefiniowane', function(done) {
 		var u = new Uzytkownik({imie: "Andrzej", nazwisko: "Kowalski", passwordhash: "jsjhjhhj"});
         u.validate(function(err) {
             expect(err.errors.nazwa).to.exist;
             done();
         });
     });
+
+    it('validacja konczy sie bledem jesli passwordhash nie zostalo zdefiniowane', function(done) {
+		var u = new Uzytkownik({nazwa: "Halabardnik", nazwisko: "Kowalski"});
+        u.validate(function(err) {
+            expect(err.errors.passwordhash).to.exist;
+            done();
+        });
+    }); 
+
 });
