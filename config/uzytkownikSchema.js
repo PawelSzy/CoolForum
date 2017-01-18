@@ -1,10 +1,8 @@
 var mongoose = require('mongoose');
-
-
-var mongoose = require('mongoose');
+var ObjectId = require('mongodb').ObjectID;
 
 var uzytkownikSchema = {
-  _id: { type: String },
+  // _id: { type: String },
   nazwa: { type: String, required: true },
   passwordhash: { type: String, required: true},
   imie: { type: String},
@@ -15,10 +13,9 @@ var uzytkownikSchema = {
     match: /.+@.+\..+/,
     lowercase: true
   },
-  data: { type: Date, default: Date.now }, 
-  posty: [{ type : ObjectId, ref: 'Post' }],
-  // liczba_postow {type int, default: 0}
-
+  data: { type: Date, default: Date.now },
+  posty: [{ type : mongoose.Schema.Types.ObjectId, ref: 'Post' }],
+  liczba_postow: {type: Number , default: 0}
 };
 
 
