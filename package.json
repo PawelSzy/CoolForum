@@ -1,54 +1,57 @@
 {
-    "name": "coolforum",
-    "description": "Forum",
-    "version": "0.0.1",
-    "private": false,
-    "author": "Pawel",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/peal1982@gmail.com/coolforum.git"
-    },
-    "engines": {
-        "node": "0.10.x",
-        "npm": "1.2.x"
-    },
-    "scripts": {
-        "start": "node node_modules/grunt-cli/bin/grunt",
-        "test": "node node_modules/grunt-cli/bin/grunt test"
-    },
-    "dependencies": {
-        "express": "latest",
-        "morgan": "latest",
-        "cookie-parser": "latest",
-        "serve-static": "latest",
-        "body-parser": "latest",
-        "compression": "latest",
-        "method-override": "latest",
-        "express-session": "latest",
-        "static-favicon": "latest",
-        "consolidate": "latest",
-        "jade": "latest",
-        "mongoose": "latest",
-        "connect-mongo": "latest",
-        "connect-flash": "latest",
-        "underscore": "latest",
-        "async": "latest",
-        "view-helpers": "latest",
-        "forever": "latest",
-        "grunt": "latest",
-        "grunt-cli": "latest"
-    },
-    "devDependencies": {
-        "supertest": "latest",
-        "should": "latest",
-        
-        "grunt-contrib-compass": "~0.5.0",
-        "grunt-contrib-watch": "latest",
-        "grunt-contrib-jshint": "latest",
-        "grunt-nodemon": "latest",
-        "grunt-concurrent": "latest",
-        "grunt-mocha-test": "latest",
-        "load-grunt-tasks": "~0.1.0",
-        "time-grunt": "~0.1.1"
-    }
+  "name": "coolforum",
+  "description": "Forum",
+  "version": "0.0.1",
+  "private": false,
+  "author": "Pawel",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/peal1982@gmail.com/coolforum.git"
+  },
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.2.x"
+  },
+  "scripts": {
+    "start": "node node_modules/grunt-cli/bin/grunt",
+      "test": "mocha"
+    // "test": "node node_modules/grunt-cli/bin/grunt test"
+  },
+  "dependencies": {
+    "async": "latest",
+    "body-parser": "latest",
+    "chai": "^3.5.0",
+    "compression": "latest",
+    "connect-flash": "latest",
+    "connect-mongo": "latest",
+    "consolidate": "latest",
+    "cookie-parser": "latest",
+    "express": "^4.14.0",
+    "express-session": "latest",
+    "forever": "latest",
+    "grunt": "latest",
+    "grunt-cli": "latest",
+    "jade": "latest",
+    "method-override": "latest",
+    "mocha": "^3.2.0",
+    "mongoose": "latest",
+    "morgan": "latest",
+    "request": "^2.79.0",
+    "serve-static": "latest",
+    "static-favicon": "latest",
+    "underscore": "latest",
+    "view-helpers": "latest"
+  },
+  "devDependencies": {
+    "supertest": "latest",
+    "should": "latest",
+    "grunt-contrib-compass": "~0.5.0",
+    "grunt-contrib-watch": "latest",
+    "grunt-contrib-jshint": "latest",
+    "grunt-nodemon": "latest",
+    "grunt-concurrent": "latest",
+    "grunt-mocha-test": "latest",
+    "load-grunt-tasks": "~0.1.0",
+    "time-grunt": "~0.1.1"
+  }
 }

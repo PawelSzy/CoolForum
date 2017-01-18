@@ -1,12 +1,4 @@
 
-
-
-
-
-
-
-
-
 // server.js
 
 // modules =================================================
@@ -60,6 +52,7 @@ exports = module.exports = app;
 //////////////////Stara wersja
 
 // 'use strict';
+
 
 // /**
 //  * Module dependencies.
