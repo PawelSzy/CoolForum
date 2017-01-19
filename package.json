@@ -14,21 +14,23 @@
   },
   "scripts": {
     "start": "node node_modules/grunt-cli/bin/grunt",
-      "test": "mocha"
-    // "test": "node node_modules/grunt-cli/bin/grunt test"
+    "test": "mocha"
   },
   "dependencies": {
     "async": "latest",
     "body-parser": "latest",
     "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
     "compression": "latest",
     "connect-flash": "latest",
     "connect-mongo": "latest",
     "consolidate": "latest",
     "cookie-parser": "latest",
     "express": "^4.14.0",
+    "express-json": "^1.0.0",
     "express-session": "latest",
     "forever": "latest",
+    "get-json": "0.0.3",
     "grunt": "latest",
     "grunt-cli": "latest",
     "jade": "latest",
@@ -43,15 +45,15 @@
     "view-helpers": "latest"
   },
   "devDependencies": {
-    "supertest": "latest",
-    "should": "latest",
-    "grunt-contrib-compass": "~0.5.0",
-    "grunt-contrib-watch": "latest",
-    "grunt-contrib-jshint": "latest",
-    "grunt-nodemon": "latest",
     "grunt-concurrent": "latest",
+    "grunt-contrib-compass": "~0.5.0",
+    "grunt-contrib-jshint": "latest",
+    "grunt-contrib-watch": "latest",
     "grunt-mocha-test": "latest",
+    "grunt-nodemon": "latest",
     "load-grunt-tasks": "~0.1.0",
+    "should": "latest",
+    "supertest": "^2.0.1",
     "time-grunt": "~0.1.1"
   }
 }
