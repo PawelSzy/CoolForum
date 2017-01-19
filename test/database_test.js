@@ -1,6 +1,5 @@
 // getting-started.js
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/uzytkownik');;
+
 
 
 'use strict';
@@ -13,7 +12,12 @@ assert = chai.assert;
 chai.use(chaiHttp);
 
 
- // it('sprawdza nazwe uzytkownika request', function(done) {
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/uzytkownik');;
+
+describe('uzytkownik', function() {
+
+  it('sprawdza nazwe uzytkownika request', function(done) {
 		var db = mongoose.connection;
 		db.on('error', console.error.bind(console, 'connection error:'));
 		db.once('open', function() {
@@ -26,12 +30,13 @@ chai.use(chaiHttp);
 		  console.log(uzytkownik);
 		});
 		  
-		  Uzytkownicy.find(function (err, kittens) {
+		  Uzytkownicy.find(function (err, uzytkownik) {
 		  	if (err) return console.error(err);
-		  	console.log(kittens);
+		  	console.log(uzytkownik);
 			})
 		});
- // });
+ 		done();
+ });
 
-
+});
 

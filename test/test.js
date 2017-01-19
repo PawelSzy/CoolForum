@@ -90,6 +90,43 @@ describe('uzytkownik GET', function() {
     });;
   });
 
+
+
+
+
+ var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/uzytkownik');;
+
+describe('uzytkownik', function() {
+
+  it('zapis i odczyt do bazy danych', function(done) {
+    var db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error:'));
+    db.once('open', function(done) {
+      var Uzytkownicy = require('../app/models/uzytkownik');
+      var uzytkownik= new Uzytkownicy({nazwa : 'testKrol', imie: 'Jagiello', nazwisko: "Pierwszy", email: "jagielo@krakow.pl", passwordhash: "hhadjdha2"});
+    
+
+    uzytkownik.save(function (err, uzytkownik455) {
+      if (err) done(err)
+      // else done();
+
+    });
+      
+      Uzytkownicy.find(function (err, uzytkownik) {
+        if (err) done(err);
+        // else done(0)
+        expect(uzytkownik4454).to.exist;
+        // done();
+        // console.log(uzytkownik);
+      })
+ 
+    });
+     done();
+ });
+
+});
+
   // it('sprawdza nazwe uzytkownika request', function(done) {
   //   request(app)
   //     .get('/uzytkownik/test/')

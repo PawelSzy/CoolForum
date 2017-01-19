@@ -42,7 +42,8 @@
     "serve-static": "latest",
     "static-favicon": "latest",
     "underscore": "latest",
-    "view-helpers": "latest"
+    "view-helpers": "latest",
+    "wagner-core": "^0.2.0"
   },
   "devDependencies": {
     "grunt-concurrent": "latest",

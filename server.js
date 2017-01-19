@@ -45,6 +45,7 @@ var app            = express();
 var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
 var mongoose = require('mongoose');
+var wagner = require('wagner-core');
 
 // // configuration ===========================================
     
