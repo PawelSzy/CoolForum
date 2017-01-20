@@ -9,6 +9,7 @@ var uzytkownikSchema = {
   nazwisko: { type: String}, 
   email: {
     type: String,
+    required: true,
     match: /.+@.+\..+/,
     lowercase: true
   },
