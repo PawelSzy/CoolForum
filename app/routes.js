@@ -3,7 +3,7 @@
 // grab the nerd model we just created
 // var Nerd = require('./models/nerd');
 
-    module.exports = function(app) {
+    module.exports = function(app, wagner) {
 
         // server routes ===========================================================
         // handle things like api calls

@@ -48,6 +48,8 @@ it('dodaj 3+5', () => {
 describe('uzytkownik', function(done) {
 
   var models = require('../app/models/uzytkownik')(wagner);
+  app.use(wagner);
+
 
 	it('uzytkownik zostal zdefiniowany', function(done) { 
     wagner.invoke((Uzytkownicy) => {
@@ -82,8 +84,8 @@ describe('uzytkownik', function(done) {
 });
 
 describe('uzytkownik GET', function(done) {
-  var models = require('../app/models/uzytkownik')(wagner);
-
+  
+  
   it('wyswietla strone uzytkownika chaiHttp', function(done) {
     chai.request(myLocalhost)
       .get('/uzytkownik/test')
