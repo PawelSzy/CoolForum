@@ -2,8 +2,10 @@
 
 // grab the nerd model we just created
 // var Nerd = require('./models/nerd');
+var express        = require('express');
 
-    module.exports = function(app) {
+
+    module.exports = function(wagner, app) {
 
         // server routes ===========================================================
         // handle things like api calls
@@ -30,19 +32,19 @@
         // });
 
 
-        // var api = express.Router();
+        var api = express.Router();
 
         // require('../app/models/uzytkownik')(wagner);
 
-        // app.get('/uzytkownik/id', wagner.invoke( (Uzytkownicy) => {
-        //     (req, res) => {
-        //         res.json({nazwa : 'test', imie: 'Mieszko', nazwisko: "Pierwszy", email: "mieszko@gniezno.pl"});
-        //     }
-        // }));
+        app.get('/uzytkownik/id', wagner.invoke( (Uzytkownicy) => {
+            return (req, res) => {
+                res.json({nazwa : 'test4445', imie: 'Mieszko3', nazwisko: "Trzeci", email: "mieszko@gniezno.pl"});
+            }
+        }));
 
-       app.get('/uzytkownik/test', (req, res) => {
-            res.json({"nazwa" : 'test', "imie": 'Mieszko', "nazwisko": "Pierwszy", "email": "mieszko@gniezno.pl"});
-        });
+       // app.get('/uzytkownik/id', (req, res) => {
+       //      res.json({"nazwa" : 'test222', "imie": 'Mieszko2', "nazwisko": "Drugi", "email": "mieszko@gniezno.pl"});
+       //  });
 
 
         // route to handle creating goes here (app.post)
@@ -54,6 +56,6 @@
         //     res.sendfile(__dirname +'./public/views/index.html'); // load our public/index.html file
         // });
 
-        return app;
+        return api;
 
     };

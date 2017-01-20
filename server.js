@@ -61,7 +61,7 @@ mongoose.connect(db.url);
 
 // // get all data/stuff of the body (POST) parameters
 // // parse application/json 
-// app.use(bodyParser.json()); 
+app.use(bodyParser.json()); 
 
 // // parse application/vnd.api+json as json
 // app.use(bodyParser.json({ type: 'application/vnd.api+json' })); 
@@ -85,6 +85,9 @@ mongoose.connect(db.url);
 require('./app/routes')(app); // configure our routes
 
 
+app.use('/uzytkownik/id', require('./app/routes_wagner')(wagner, app));
+
+
 
 
 // start app ===============================================
@@ -95,7 +98,7 @@ app.listen(port);
 console.log('Magic happens on port ' + port);
 
 // expose app           
-exports = module.exports = app;    
+// exports = module.exports = app;    
 
 
 //////////////////Stara wersja
