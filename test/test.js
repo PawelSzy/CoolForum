@@ -45,11 +45,9 @@ it('dodaj 3+5', () => {
 });
 
 
-describe('uzytkownik', function() {
+describe('uzytkownik', function(done) {
 
-  var models = require('../app/models/uzytkownik')(wagner)
-  app.use(wagner)
-
+  var models = require('../app/models/uzytkownik')(wagner);
 
 	it('uzytkownik zostal zdefiniowany', function(done) { 
     wagner.invoke((Uzytkownicy) => {
@@ -83,7 +81,9 @@ describe('uzytkownik', function() {
 
 });
 
-describe('uzytkownik GET', function() {
+describe('uzytkownik GET', function(done) {
+  var models = require('../app/models/uzytkownik')(wagner);
+
   it('wyswietla strone uzytkownika chaiHttp', function(done) {
     chai.request(myLocalhost)
       .get('/uzytkownik/test')
@@ -104,9 +104,7 @@ describe('uzytkownik GET', function() {
         done();
     });;
   });
-
-
-
+});
 
 
 
@@ -141,6 +139,4 @@ describe('uzytkownik', function() {
     });
      done();
  });
-
-});
 });

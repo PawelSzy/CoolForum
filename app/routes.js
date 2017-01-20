@@ -30,12 +30,19 @@
         // });
 
 
-       app.get('/uzytkownik/test', (req, res) => {
+        // var api = express.Router();
 
-            // res.setHeader('Content-Type', 'application/json');
-            // res.send(JSON.stringify({ a: 1 }, null, 3));        
-            res.json({nazwa : 'test', imie: 'Mieszko', nazwisko: "Pierwszy", email: "mieszko@gniezno.pl"});
-            // res.send(JSON.parse({nazwa: 'Test', imie: 'Mieszko'}));
+        // require('../app/models/uzytkownik')(wagner);
+
+        // app.get('/uzytkownik/test', wagner.invoke( (Uzytkownicy) => {
+        //     (req, res) => {
+        //         res.json({nazwa : 'test', imie: 'Mieszko', nazwisko: "Pierwszy", email: "mieszko@gniezno.pl"});
+        //     }
+        // }));
+
+
+       app.get('/uzytkownik/test', (req, res) => {
+            res.json({"nazwa" : 'test', "imie": 'Mieszko', "nazwisko": "Pierwszy", "email": "mieszko@gniezno.pl"});
         });
 
 
@@ -47,5 +54,7 @@
         // app.get('/', function(req, res) {
         //     res.sendfile(__dirname +'./public/views/index.html'); // load our public/index.html file
         // });
+
+        return app;
 
     };

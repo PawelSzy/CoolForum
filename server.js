@@ -75,6 +75,12 @@ mongoose.connect(db.url);
 // // set the static files location /public/img will be /img for users
 // // app.use(express.static(__dirname + '/public')); 
 
+///use wagner
+ var models = require('./app/models/uzytkownik')(wagner);
+ // app.use(wagner);
+
+// app.use('/uzytkownik/v1', require('./app/models/uzytkownik')(wagner))
+
 // routes ==================================================
 require('./app/routes')(app); // configure our routes
 
