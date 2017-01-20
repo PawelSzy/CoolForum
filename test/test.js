@@ -109,12 +109,10 @@ describe('uzytkownik GET', function() {
 
 
 
-
+ var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/uzytkownik');;
 
 describe('uzytkownik', function() {
-
-   var mongoose = require('mongoose');
-    // mongoose.connect('mongodb://localhost/uzytkownik');
 
   it('zapis i odczyt do bazy danych', function(done) {
     var db = mongoose.connection;
@@ -143,4 +141,45 @@ describe('uzytkownik', function() {
  });
 
 });
+
+  // it('sprawdza nazwe uzytkownika request', function(done) {
+  //   request(app)
+  //     .get('/uzytkownik/test/')
+  //     .expect((res) => {
+  //       console.log(res.body);
+  //       // res.body.should.have.property("imie");
+  //     })
+  //     .end(function(err, res) {
+  //       if (err) {
+  //         console.log(res);
+  //         return done(err);
+  //       }
+  //       if (res) {
+  //         console.log(res);
+  //         return done(res);
+  //       }
+  //     });                              // <= Call done to signal callback end
+  // });
+
+// chai.request(app)
+
+  // it('wyswietla strone uzytkownika', function(done) {
+  //   request(app)
+  //   .get('/api')
+  //   // .expect('Content-Type', 'application/json;')
+  //   // .expect('Content-Length', '15')
+  //   // .expect(res.body.imie).toBe("Mieszko")
+  //   .end(function(err, res){
+  //       if(err){
+  //           console.log("error");
+  //           done(err);
+  //       }
+  //       else {
+  //           console.log(res);
+  //           // expect(res.body.imie).toBe("Mieszko")
+  //           done();
+  //       }
+  //   });
+  // });
+
 });
