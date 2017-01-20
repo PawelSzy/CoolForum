@@ -75,7 +75,8 @@ app.use(bodyParser.json());
 // // set the static files location /public/img will be /img for users
 // // app.use(express.static(__dirname + '/public')); 
 
-///use wagner
+///use wagner - faktory -do depencey injection
+// wagner jest faktory - zwraca model uzytkownicy zdefiniowany w app/models
  var models = require('./app/models/uzytkownik')(wagner);
  // app.use(wagner);
 
@@ -85,6 +86,9 @@ app.use(bodyParser.json());
 require('./app/routes')(app); // configure our routes
 
 
+//routes z uzyciem dependency injection wagner 
+//na wzor kursu edx - MongoDBx: M101x Introduction to MongoDB using the MEAN Stack
+// wagner jest faktory - zwraca model uzytkownicy zdefiniowany w app/models
 app.use('/uzytkownik/id', require('./app/routes_wagner')(wagner, app));
 
 
