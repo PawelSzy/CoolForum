@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var ObjectId = require('mongodb').ObjectID;
+mongoose.Promise = require('bluebird');
 // // mongoose.Types.ObjectId("<object_id>");
 // // require('mongoose').Schema.ObjectId ;
 // // var uzytkownikSchema = require('../../config/uzytkownikSchema');

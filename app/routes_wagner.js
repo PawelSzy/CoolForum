@@ -58,7 +58,7 @@ var status         = require('http-status');
                   }         
                   else {
                     // validation passed
-                    console.log(req.body);
+                    // console.log(req.body);
                     
                     uzytkownik.save( (error, nowy_uzytkownik) => {
                         if (error) {

@@ -19,10 +19,12 @@ var request = require('supertest')
 var express = require('express');
 var bodyParser     = require('body-parser');
 
-var app = express();        
-app.use(bodyParser.json());
 
-var Uzytkownik = require('../app/models/uzytkownik');
+
+var app = express();        
+
+
+// var Uzytkownik = require('../app/models/uzytkownik');
 
 const myLocalhost = 'http://localhost:3000';
 
@@ -52,12 +54,14 @@ describe('uzytkownik', function(done) {
   var models = require('../app/models/uzytkownik')(wagner);
   app.use(wagner);
 
+
+
   it('uzytkownik zostal zdefiniowany', function(done) { 
     wagner.invoke((Uzytkownicy) => {
         var u = new Uzytkownicy({imie: "Andrzej", nazwisko: "Kowalski", passwordhash: "jsjhjhhj"});
         assert.isDefined(u, "Uzytkownik zostal zdefiniowany");
         done();
-    }); 
+    }).catch( (e) => done(e) ); 
   });
 
 
@@ -74,7 +78,7 @@ describe('uzytkownik', function(done) {
 
   it('validacja konczy sie bledem jesli passwordhash nie zostalo zdefiniowane', function(done) { 
     wagner.invoke((Uzytkownicy) => {
-    var u = new Uzytkownicy({nazwa: "Halabardnik", nazwisko: "Kowalski"});
+    var u = new Uzytkownicy({nazwa: "Halabardnik", nazwisko: "Kowalski", });
         u.validate(function(err) {
             expect(err.errors.passwordhash).to.exist;
             done();
@@ -106,33 +110,45 @@ describe('uzytkownik GET', function(done) {
         res.body.should.have.property("imie");
 
         done();
-    });;
+    });
   });
 });
 
 
 describe('prosty POST', () => {
+  var models = require('../app/models/uzytkownik')(wagner);
+  app.use(wagner);
 
   it('powinno odczytac prosty przeslanie POST', (done) => {
-    const uzytkownik_Wyslany_Text = {
-    "nazwa": "testuje nazwa",
-    "imie": "Ludwik XIV",
-    "nazwisko": "Krol Francji",
-    "email":  "ludwiczek@wersal.fr",
-    "passwordhash": "madamePompadur"
-  };
+   
+    var JSON_text =  {
+      "nazwa": "testuje nazwa",
+      "imie": "Ludwik XIV",
+      "nazwisko": "Krol Francji",
+      "email":  "ludwiczek@wersal.fr",
+      "passwordhash": "madamePompadur"
+    };
+    var uzytkownik_Wyslany_Text = JSON.stringify(JSON_text);
 
-    request(app).
-      post('/uzytkownik/utworz')
-      .send({uzytkownik_Wyslany_Text})
+    request(myLocalhost)
+      .post('/uzytkownik/utworz')
+      .send(JSON_text)
       .expect(200)
-      // .expect((res) => {
-        // expect(res.body.text).toBe(text);
-      // })
+      .expect( (res) => {
+        res.body.should.have.property("imie");
+      })
       .end((err, res) => {
-          if(err) {return done(err);}
-      });
-      done();
+          if(err) {
+            return done(err);
+          } else {
+            res.body.should.have.property("imie");
+            res.body.nazwa.should.be.equal("testuje nazwa");
+
+            done();
+          }
+      })
+      //.catch( (e) =>  done(e) );
+       // done();
   });    
 });
 
