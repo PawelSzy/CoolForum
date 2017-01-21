@@ -4,6 +4,7 @@
 // var Nerd = require('./models/nerd');
 var express        = require('express');
 var bodyParser     = require('body-parser');
+var status         = require('http-status');
 
 
 
@@ -31,16 +32,49 @@ var bodyParser     = require('body-parser');
         app.post('/uzytkownik/utworz', wagner.invoke( (Uzytkownicy) => {
             return (req, res) => {
                     // uzytkownik = new Uzytkownicy({nazwa : 'testKrol', imie: 'Jagiello', nazwisko: "Pierwszy", email: "jagielo@krakow.pl", passwordhash: "hhadjdha2"});
+
+                // utworz uzytkownika z     
+                try {
                     uzytkownik = new Uzytkownicy({
                         nazwa : req.body.nazwa, 
                         imie: req.body.imie, 
                         nazwisko: req.body.nazwisko, 
                         email: req.body.email, 
                         passwordhash: req.body.passwordhash,
-                    }
-                        );
+                    });
+                } catch(e) {
+                    return res.
+                        status(status.BAD_REQUEST)
+                        .json({error: "Nie mozna utworzyc uzytkownika"});
+                }
+
+
+                ///validacja danych uzytkownia
+                uzytkownik.validate(function(err) {          
+                  if (err) {
+                    return res.      
+                        status(status.BAD_REQUEST)
+                        .json({error: "Błędne dane użytkownika"});
+                  }         
+                  else {
+                    // validation passed
                     console.log(req.body);
-                    res.send(uzytkownik);
+                    
+                    uzytkownik.save( (error, nowy_uzytkownik) => {
+                        if (error) {
+                            return res.
+                                status(status.INTERNAL_SERVER_ERROR).
+                                json( { error: error.toString() } );
+                        } else {
+                            return res.json(nowy_uzytkownik);
+                        }
+                    });                 
+                  }
+                });
+
+
+
+
                     // res.json({nazwa : 'test4445'});
             }
         }));
