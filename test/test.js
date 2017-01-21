@@ -1,3 +1,4 @@
+
 'use strict';
 var chai = require('chai')
   , expect = chai.expect
@@ -19,13 +20,12 @@ var express = require('express');
 
 var app = express();
 
-
-// var Uzytkownik = require('../app/models/uzytkownik');
+var Uzytkownik = require('../app/models/uzytkownik');
 
 const myLocalhost = 'http://localhost:3000';
 
 
-var models = require('../app/models/uzytkownik')(wagner);
+// var models = require('../app/models/uzytkownik')(wagner);
 
 // var Uzytkownicy = models.Uzytkownicy;
 
@@ -40,8 +40,8 @@ describe('Array', function() {
 
 
 it('dodaj 3+5', () => {
-	var res = 3+5;
-	assert.equal(res, 8);
+  var res = 3+5;
+  assert.equal(res, 8);
 });
 
 
@@ -50,13 +50,13 @@ describe('uzytkownik', function(done) {
   var models = require('../app/models/uzytkownik')(wagner);
   app.use(wagner);
 
-	it('uzytkownik zostal zdefiniowany', function(done) { 
+  it('uzytkownik zostal zdefiniowany', function(done) { 
     wagner.invoke((Uzytkownicy) => {
         var u = new Uzytkownicy({imie: "Andrzej", nazwisko: "Kowalski", passwordhash: "jsjhjhhj"});
         assert.isDefined(u, "Uzytkownik zostal zdefiniowany");
         done();
-    });	
-	});
+    }); 
+  });
 
 
   it('validacja konczy sie bledem jesli nazwa nie zostalo zdefiniowane', function(done) { 
@@ -109,7 +109,24 @@ describe('uzytkownik GET', function(done) {
 });
 
 
+describe('prosty POST', () => {
 
+  it('powinno odczytac prosty przeslanie POST', (done) => {
+    const text = "Testowanie";
+
+    request(app).
+      post('/uzytkownik/utworz')
+      .send({text})
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.text).toBe(text);
+      })
+      .end((err, res) => {
+          if(err) {return done(err);}
+      })
+
+  });    
+});
 
 describe('uzytkownik', function() {
 

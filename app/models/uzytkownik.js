@@ -1,13 +1,13 @@
 var mongoose = require('mongoose');
 var ObjectId = require('mongodb').ObjectID;
-// mongoose.Types.ObjectId("<object_id>");
-// require('mongoose').Schema.ObjectId ;
-// var uzytkownikSchema = require('../../config/uzytkownikSchema');
+// // mongoose.Types.ObjectId("<object_id>");
+// // require('mongoose').Schema.ObjectId ;
+// // var uzytkownikSchema = require('../../config/uzytkownikSchema');
 
-// module.exports = mongoose.model('Uzytkownik', uzytkownikSchema);
+// // module.exports = mongoose.model('Uzytkownik', uzytkownikSchema);
 
 
-// Wagner
+// // Wagner
 
 module.exports = function(wagner) {
 	 // mongoose.connect('mongodb://localhost/uzytkownik');

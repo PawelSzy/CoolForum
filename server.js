@@ -157,4 +157,4 @@ console.log('Magic happens on port ' + port);
 // console.log('Express app started on port ' + port);
 
 // //expose app
-// exports = module.exports = app;
+exports = module.exports = app;
