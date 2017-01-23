@@ -271,11 +271,66 @@ describe('prosty POST, odczyt i zapis tresci Postu do bazy danych', () => {
 });
 
 
+describe('zwieszk o jeden liczbe postow uzytkownika przy zapisie nowego postu', () => {
+  it('zwieszk o jeden liczbe postow przy zapisie', (done) => {
+    const id_autora = "5885e2a4bcf6de07ece716b2";
+    var wyslany_Post =  {
+        "id_autora": id_autora,
+        "tytul": "Miecz przeznaczenia",
+        "tresc": "Na moim sihillu – warknął Zoltan, "
+      };
+
+      var poczatkowa_liczba_postow;
+
+      //pobierz uzytkownika i zapisz liczbe postow
+      request(myLocalhost)
+      .get('/uzytkownik/id/'+id_autora).
+      expect(200).
+      expect('Content-Type', 'application/json')
+      .end(function(err, res) {
+        res.body.should.have.property("_id");
+        res.body.should.have.property("liczba_postow");
+        poczatkowa_liczba_postow = res.body.liczba_postow;
+    });
+
+    request(myLocalhost)
+        .post('/post/utworz')
+        .send(wyslany_Post)
+        .expect(200)
+        .expect( (res) => {
+  
+        })
+        .end((err, res) => {
+            if(err) {
+              return done(err);
+            } else {
+
+              /// teraz sprawdzam GET - pobierz Post  
+              request(myLocalhost)
+                .get('/uzytkownik/id/'+id_autora).
+                expect(200).
+                expect('Content-Type', 'application/json')
+                .end(function(err, res) {
+                  res.body.should.have.property("_id");
+                  res.body.should.have.property("liczba_postow");
+                  res.body.liczba_postow.should.be.equal(poczatkowa_liczba_postow +1);  
+                  done();
+              });
+
+            }    
+            // done();
+          
+        });
 
 
 
+  });
 
-describe('uzytkownik', function() {
+});
+
+
+
+describe('uzytkownik zapis do bazy danych', function() {
 
     // mongoose.connect('mongodb://localhost/uzytkownik');
 

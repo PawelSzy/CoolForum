@@ -15,6 +15,24 @@ var status         = require('http-status');
         app.use(bodyParser.json());
 
 
+
+
+
+        var zwieksz_id_autora = (id_autora, zwieksz_o =1) => {
+            wagner.invoke( (Uzytkownicy) => {
+                try {
+                    Uzytkownicy.findOne({ _id: id_autora}, {passwordhash: 0}, (error, uzytkownik) => {
+                        uzytkownik.zwiekszLicznikLiczbaPostow( zwieksz_o );
+                        uzytkownik.save();
+                    });
+                } catch(e) {
+                    console.log("nie moge zwiekszyc liczby postow danego uzytkownika");
+                }                                   
+            });
+        }
+
+
+
         //route - pobierz uzytkownika i zwroc jego dane w postci JSON
         // @param - get z id uzytkownika w bazie danych
         // @return - JSON - dane uzytkowniak
@@ -133,6 +151,10 @@ var status         = require('http-status');
                                 status(status.INTERNAL_SERVER_ERROR).
                                 json( { error: error.toString() } );
                         } else {
+
+                            const id_autora = nowy_post.id_autora;
+                            zwieksz_id_autora(id_autora);
+
                             return res.json(nowy_post);
                         }
                     });                 
