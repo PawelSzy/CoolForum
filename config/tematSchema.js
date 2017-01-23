@@ -9,15 +9,14 @@ var tematSchema = {
   tytul: { type: String, required: true},
   data_utworzenia: { type: Date, default: Date.now },
   data_ostatniej_modyfikacji: { type: Date, default: Date.now },
-  ///// tutaj umiescic temat w ktorym jest ten post
-  // id_tematu: {type; ObjectId, ref: "tematy"}
+  posty: [{ type : mongoose.Schema.Types.ObjectId, ref: 'Post' }],
 
   parent: {
 	type : mongoose.Schema.Types.ObjectId, 
 	ref: 'Temat'
   },
 
-	ancestors: [{
+  ancestors: [{
 	type : mongoose.Schema.Types.ObjectId, 
 	ref: 'Temat'
   }]	

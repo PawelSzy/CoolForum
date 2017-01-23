@@ -79,6 +79,7 @@ app.use(bodyParser.json());
 // wagner jest faktory - zwraca model uzytkownicy zdefiniowany w app/models
  var models = require('./app/models/uzytkownik')(wagner);
  var models = require('./app/models/post')(wagner);
+ var models = require('./app/models/temat')(wagner);
  // app.use(wagner);
 
 // app.use('/uzytkownik/v1', require('./app/models/uzytkownik')(wagner))

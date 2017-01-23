@@ -99,15 +99,53 @@ describe('uzytkownik', function(done) {
 });
 
 
-describe('validacja i tworzenie tematu', () => {
+describe('tworzenie tematu', () => {
   it('walidacja tematu' , (done) => {
     wagner.invoke((Tematy) => {
-        var u = new Tematy({tytul: "Frank Herberts Quotes", });
+        var u = new Tematy({tytul: "Frank Herberts Quotes" });
         assert.isDefined(u, "Temat zostal zdefiniowany");
         done();
     }).catch( (e) => done(e) ); 
   });
 });
+
+  it('walidacja tematu' , (done) => {
+    wagner.invoke((Tematy) => {
+        var u = new Tematy({tytul: "Frank Herberts Quotes" });
+        u.validate(function(err) {
+            expect(err).not.to.exist;
+            done();
+        });
+    })
+
+
+  it('wykryj ze nie podano tematu' , (done) => {
+    wagner.invoke((Tematy) => {
+        var u = new Tematy({});
+        u.validate(function(err) {
+            expect(err.errors.tytul).to.exist;
+            done();
+        });
+    });
+
+
+  it('wykryj ze nie podano nie istniejacy parenttematu' , (done) => {
+    wagner.invoke((Tematy) => {
+        var u = new Tematy({tytul: "Frank Herberts Quotes III", parent: 0});
+        u.validate(function(err) {
+            res.body.should.have.property("imie");
+            done();
+        });
+      }) ;
+    });
+
+
+
+});
+
+
+});
+
 
 describe('uzytkownik GET', function(done) {
 
@@ -339,6 +377,54 @@ describe('zwieszk o jeden liczbe postow uzytkownika przy zapisie nowego postu', 
   });
 
 });
+
+
+
+describe('prosty POST, odczyt i zapis tematu do bazy danych', () => {
+
+  it('utworz nowy temat i go odczytaj', (done) => {
+   
+    const id_autora = "5885e2a4bcf6de07ece716b2";
+
+    var uzytkownik_Wyslany_Text =  {
+      "tytul": "cytaty ksiazkowe",
+      "id_autora": id_autora
+    };
+
+    request(myLocalhost)
+      .post('/temat/utworz')
+      .send(uzytkownik_Wyslany_Text)
+      .expect(200)
+      .expect( (res) => {
+        res.body.should.have.property("tytul");
+      })
+      .end((err, res) => {
+          if(err) {
+            return done(err);
+          } else {
+            res.body.should.have.property("_id");
+            res.body.should.have.property("tytul");
+            res.body.should.have.property("data_utworzenia");
+            res.body.tytul.should.be.equal(uzytkownik_Wyslany_Text.tytul);
+
+            const id_tematu = res.body._id
+
+          request(myLocalhost)
+            .get('/temat/id/'+id_tematu).
+            expect(200).
+            expect('Content-Type', 'application/json')
+            .end(function(err, res) {
+              res.body.should.have.property("_id");
+              res.body.should.have.property("id_autora");
+              res.body.should.have.property("tytul");
+              done();
+          });
+        }        
+      })
+  });    
+});
+
+
 
 
 

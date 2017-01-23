@@ -47,6 +47,21 @@ var status         = require('http-status');
         }));
 
 
+
+        //route - pobierz uzytkownika i zwroc jego dane w postci JSON
+        // @param - get z id uzytkownika w bazie danych
+        // @return - JSON - dane uzytkowniak
+        app.get('/temat/id/:id', wagner.invoke( (Tematy) => {
+            return (req, res) => {
+
+                const id = req.params.id
+                Tematy.findOne({ _id: id}, (error, temat) => {
+                    res.json(temat); 
+                });
+            }
+        }));
+
+
        //route - pobierz post i zwroc jego dane w postci JSON
         // @param - get z id posta w bazie danych
         // @return - JSON - post
@@ -164,6 +179,49 @@ var status         = require('http-status');
         }));
 
 
+
+        app.post('/temat/utworz', wagner.invoke( (Tematy) => {
+            return (req, res) => {
+
+                // utworz uzytkownika z     
+                try {
+                    temat = new Tematy({
+                        tytul : req.body.tytul, 
+                        data_utworzenia: req.body.data_utworzenia,
+                        id_autora: req.body.id_autora //'5885e2a4bcf6de07ece716b2'
+                    });
+                } catch(e) {
+                    return res.
+                        status(status.BAD_REQUEST)
+                        .json({error: "Nie mozna utworzyc nowego tematu"});
+                }
+
+
+                ///validacja danych uzytkownia
+                temat.validate(function(err) {          
+                  if (err) {
+                    return res.      
+                        status(status.BAD_REQUEST)
+                        .json({error: "Błędne dane użytkownika"});
+                  }         
+                  else {
+
+                    //zapisz post i 
+                    temat.save( (error, nowy_temat) => {
+                        if (error) {
+                            return res.
+                                status(status.INTERNAL_SERVER_ERROR).
+                                json( { error: error.toString() } );
+                        } else {
+
+                            ////////// Tutaj zwracamy utworzony temat
+                            return res.json(nowy_temat);
+                        }
+                    });                 
+                  }
+                });
+            }
+        }));
 
 
 
