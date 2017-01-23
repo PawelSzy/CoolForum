@@ -84,6 +84,17 @@ describe('uzytkownik', function(done) {
     }); 
   });
 
+
+  it('testuj zwieksz licznik liczbe postow uzytkownika' , (done) => {
+    wagner.invoke((Uzytkownicy) => {
+      var u = new Uzytkownicy({nazwa: "Lucznik", nazwisko: "Starsz", });
+      expect(u.liczba_postow).to.exist;
+      var liczba_postow_then = u.liczba_postow;
+      u.zwiekszLicznikLiczbaPostow();
+      expect(u.liczba_postow).to.be.equal(liczba_postow_then + 1);
+      done();
+    })
+  }); 
 });
 
 describe('uzytkownik GET', function(done) {
@@ -258,6 +269,9 @@ describe('prosty POST, odczyt i zapis uzytkownika do bazy danych', () => {
   });
 
 });
+
+
+
 
 
 
