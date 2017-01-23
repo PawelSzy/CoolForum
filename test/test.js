@@ -24,10 +24,14 @@ var bodyParser     = require('body-parser');
 var app = express();        
 
 
+ var models = require('../app/models/uzytkownik')(wagner);
+  app.use(wagner);
+
 // var Uzytkownik = require('../app/models/uzytkownik');
 
 const myLocalhost = 'http://localhost:3000';
 
+   var mongoose = require('mongoose');
 
 // var models = require('../app/models/uzytkownik')(wagner);
 
@@ -51,11 +55,6 @@ it('dodaj 3+5', () => {
 
 describe('uzytkownik', function(done) {
 
-  var models = require('../app/models/uzytkownik')(wagner);
-  app.use(wagner);
-
-
-
   it('uzytkownik zostal zdefiniowany', function(done) { 
     wagner.invoke((Uzytkownicy) => {
         var u = new Uzytkownicy({imie: "Andrzej", nazwisko: "Kowalski", passwordhash: "jsjhjhhj"});
@@ -63,7 +62,6 @@ describe('uzytkownik', function(done) {
         done();
     }).catch( (e) => done(e) ); 
   });
-
 
   it('validacja konczy sie bledem jesli nazwa nie zostalo zdefiniowane', function(done) { 
     wagner.invoke((Uzytkownicy) => {
@@ -74,7 +72,6 @@ describe('uzytkownik', function(done) {
         });
     }); 
   });
-
 
   it('validacja konczy sie bledem jesli passwordhash nie zostalo zdefiniowane', function(done) { 
     wagner.invoke((Uzytkownicy) => {
@@ -89,8 +86,6 @@ describe('uzytkownik', function(done) {
 });
 
 describe('uzytkownik GET', function(done) {
-  var models = require('../app/models/uzytkownik')(wagner);
-  app.use(wagner);
 
   it('wyswietla strone uzytkownika chaiHttp', function(done) {
     chai.request(myLocalhost)
@@ -116,8 +111,6 @@ describe('uzytkownik GET', function(done) {
 
 
 describe('prosty POST', () => {
-  var models = require('../app/models/uzytkownik')(wagner);
-  app.use(wagner);
 
   it('powinno odczytac prosty przeslanie POST', (done) => {
    
@@ -154,7 +147,6 @@ describe('prosty POST', () => {
 
 describe('uzytkownik', function() {
 
-   var mongoose = require('mongoose');
     // mongoose.connect('mongodb://localhost/uzytkownik');
 
   it('zapis i odczyt do bazy danych', function(done) {
