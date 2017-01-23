@@ -14,10 +14,20 @@ var uzytkownikSchema = {
   },
   data: { type: Date, default: Date.now },
   posty: [{ type : mongoose.Schema.Types.ObjectId, ref: 'Post' }],
-  liczba_postow: {type: Number , default: 0}
+  // liczba_postow: {type: Number , default: 0}
 };
 
 
-module.exports = new mongoose.Schema(uzytkownikSchema);
+var schema = new mongoose.Schema(uzytkownikSchema);
+
+schema.virtual('liczba_postow').get( function() {
+  return this.posty.length
+});
+
+
+schema.set('toObject', { virtuals: true });
+schema.set('toJSON', { virtuals: true });
+
+module.exports = schema;
 module.exports.uzytkownikSchema = uzytkownikSchema;
 
