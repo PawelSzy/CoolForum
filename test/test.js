@@ -112,13 +112,7 @@ describe('uzytkownik GET', function(done) {
 });
 
 
-describe('prosty POST', () => {
-
-
-
-  var checkId = (id, done) => {
-
-  }
+describe('prosty POST, odczyt i zapis uzytkownika do bazy danych', () => {
 
   it('powinno odczytac prosty przeslanie POST', (done) => {
    
@@ -155,8 +149,6 @@ describe('prosty POST', () => {
 
  it('powinien odczytac zapisanego uzytkownika', (done) => {
 
-
-
    var uzytkownik_Wyslany_Text =  {
       "nazwa": "testuje nazwa",
       "imie": "Napoleon",
@@ -182,6 +174,8 @@ describe('prosty POST', () => {
 
           const id = res.body._id;
 // 
+
+          /// teraz sprawdzam GET - pobierz dane uzytkownika 
           request(myLocalhost)
             .get('/uzytkownik/id/'+id).
             expect(200).
@@ -208,6 +202,61 @@ describe('prosty POST', () => {
     });
   });
 });
+
+describe('prosty POST, odczyt i zapis uzytkownika do bazy danych', () => { 
+
+  it('powinien odczytac zapisanego uzytkownika', (done) => {
+   var wyslany_Post =  {
+      "id_autora": "5885e2a4bcf6de07ece716b2",
+      "tytul": "Chrzest ognia",
+      "tresc": "Na moim sihillu – warknął Zoltan, "
+    };
+
+  request(myLocalhost)
+    .post('/post/utworz')
+    .send(wyslany_Post)
+    .expect(200)
+    .expect( (res) => {
+      res.body.should.have.property("tresc");
+      res.body.should.have.property("tytul");
+    })
+    .end((err, res) => {
+        if(err) {
+          return done(err);
+        } else {
+          res.body.should.have.property("_id");
+
+          const id = res.body._id;
+
+
+          /// teraz sprawdzam GET - pobierz Post  
+          request(myLocalhost)
+            .get('/post/id/'+id).
+            expect(200).
+            expect('Content-Type', 'application/json')
+            .end(function(err, res) {
+              res.body.should.have.property("tytul");
+              res.body.should.have.property("tresc");
+              res.body.should.have.property("id_autora");
+
+              res.body.tresc.should.be.equal(wyslany_Post.tresc);
+              res.body.tytul.should.be.equal(wyslany_Post.tytul);
+              res.body.id_autora.should.be.equal(wyslany_Post.id_autora);
+              done();
+          });
+
+        }    
+        // done();
+      
+    });
+
+
+
+  });
+
+});
+
+
 
 describe('uzytkownik', function() {
 
