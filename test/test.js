@@ -187,6 +187,8 @@ describe('prosty POST, odczyt i zapis uzytkownika do bazy danych', () => {
               res.body.should.have.property("posty");
               res.body.should.have.property("data");
 
+              res.body.should.not.have.property("passwordhash");
+
               res.body.should.have.property("posty").with.lengthOf(0);
 
               res.body.nazwa.should.be.equal(uzytkownik_Wyslany_Text.nazwa);
