@@ -26,6 +26,7 @@ var app = express();
 
  var models = require('../app/models/uzytkownik')(wagner);
  var models = require('../app/models/post')(wagner);
+ var models = require('../app/models/temat')(wagner);
   app.use(wagner);
 
 // var Uzytkownik = require('../app/models/uzytkownik');
@@ -95,6 +96,17 @@ describe('uzytkownik', function(done) {
       done();
     })
   }); 
+});
+
+
+describe('validacja i tworzenie tematu', () => {
+  it('walidacja tematu' , (done) => {
+    wagner.invoke((Tematy) => {
+        var u = new Tematy({tytul: "Frank Herberts Quotes", });
+        assert.isDefined(u, "Temat zostal zdefiniowany");
+        done();
+    }).catch( (e) => done(e) ); 
+  });
 });
 
 describe('uzytkownik GET', function(done) {

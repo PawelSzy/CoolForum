@@ -92,7 +92,7 @@ require('./app/routes')(app); // configure our routes
 // wagner jest faktory - zwraca model uzytkownicy zdefiniowany w app/models
 app.use('/uzytkownik/id', require('./app/routes_wagner')(wagner, app));
 app.use('/post/id', require('./app/routes_wagner')(wagner, app));
-
+app.use('/temat/id', require('./app/routes_wagner')(wagner, app));
 
 
 // start app ===============================================
