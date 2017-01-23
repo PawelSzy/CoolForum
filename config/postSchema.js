@@ -3,8 +3,8 @@ var ObjectId = require('mongodb').ObjectID;
 
 
 var postSchema = {
-  // id_autora: { type : mongoose.Schema.Types.ObjectId, ref: 'Uzytkownik', reguired: true  },
-  id_autora: { type : String, reguired: true},
+  id_autora: { type : mongoose.Schema.Types.ObjectId, ref: 'Uzytkownik', reguired: true  },
+  // id_autora: { type : String, reguired: true},
 
   tytul: { type: String, required: true},
   tresc: { type: String, required: true},

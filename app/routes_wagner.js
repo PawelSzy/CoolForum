@@ -22,7 +22,7 @@ var status         = require('http-status');
             return (req, res) => {
 
                 const id = req.params.id
-                Uzytkownicy.findOne({ _id: id}, (error, uzytkownik) => {
+                Uzytkownicy.findOne({ _id: id}, {passwordhash: 0}, (error, uzytkownik) => {
                     res.json(uzytkownik); 
                 });
             }

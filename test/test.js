@@ -217,6 +217,7 @@ describe('prosty POST, odczyt i zapis uzytkownika do bazy danych', () => {
     .send(wyslany_Post)
     .expect(200)
     .expect( (res) => {
+      res.body.should.have.property("_id");
       res.body.should.have.property("tresc");
       res.body.should.have.property("tytul");
     })
