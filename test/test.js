@@ -103,29 +103,35 @@ describe('uzytkownik GET', function(done) {
       expect('Content-Type', 'application/json')
       .end(function(err, res) {
         res.body.should.have.property("imie");
-
         done();
     });
   });
+
+
 });
 
 
 describe('prosty POST', () => {
 
+
+
+  var checkId = (id, done) => {
+
+  }
+
   it('powinno odczytac prosty przeslanie POST', (done) => {
    
-    var JSON_text =  {
+    var uzytkownik_Wyslany_Text =  {
       "nazwa": "testuje nazwa",
       "imie": "Ludwik XIV",
       "nazwisko": "Krol Francji",
       "email":  "ludwiczek@wersal.fr",
       "passwordhash": "madamePompadur"
     };
-    var uzytkownik_Wyslany_Text = JSON.stringify(JSON_text);
 
     request(myLocalhost)
       .post('/uzytkownik/utworz')
-      .send(JSON_text)
+      .send(uzytkownik_Wyslany_Text)
       .expect(200)
       .expect( (res) => {
         res.body.should.have.property("imie");
@@ -140,9 +146,66 @@ describe('prosty POST', () => {
             done();
           }
       })
-      //.catch( (e) =>  done(e) );
+      //.
        // done();
   });    
+
+
+
+ it('powinien odczytac zapisanego uzytkownika', (done) => {
+
+
+
+   var uzytkownik_Wyslany_Text =  {
+      "nazwa": "testuje nazwa",
+      "imie": "Napoleon",
+      "nazwisko": "Cesarz Francji",
+      "email":  "napoleon@wersal.fr",
+      "passwordhash": "Vive_la_France"
+    };
+
+
+  request(myLocalhost)
+    .post('/uzytkownik/utworz')
+    .send(uzytkownik_Wyslany_Text)
+    .expect(200)
+    .expect( (res) => {
+      res.body.should.have.property("imie");
+    })
+    .end((err, res) => {
+        if(err) {
+          return done(err);
+        } else {
+          res.body.should.have.property("imie");
+          res.body.should.have.property("_id");
+
+          const id = res.body._id;
+// 
+          request(myLocalhost)
+            .get('/uzytkownik/id/'+id).
+            expect(200).
+            expect('Content-Type', 'application/json')
+            .end(function(err, res) {
+              res.body.should.have.property("nazwa");
+              res.body.should.have.property("imie");
+              res.body.should.have.property("nazwisko");
+              res.body.should.have.property("posty");
+              res.body.should.have.property("data");
+
+              res.body.should.have.property("posty").with.lengthOf(0);
+
+              res.body.nazwa.should.be.equal(uzytkownik_Wyslany_Text.nazwa);
+              res.body.imie.should.be.equal(uzytkownik_Wyslany_Text.imie);
+              res.body.nazwisko.should.be.equal(uzytkownik_Wyslany_Text.nazwisko);
+              res.body.liczba_postow.should.be.equal(0);  
+              done();
+          });
+
+        }    
+        // done();
+      
+    });
+  });
 });
 
 describe('uzytkownik', function() {
@@ -157,7 +220,7 @@ describe('uzytkownik', function() {
       var uzytkownik= new Uzytkownicy({nazwa : 'testKrol', imie: 'Jagiello', nazwisko: "Pierwszy", email: "jagielo@krakow.pl", passwordhash: "hhadjdha2"});
     
 
-    uzytkownik.save(function (err, uzytkownik455) {
+    uzytkownik.save(function (err, uzytkownikZapisany) {
       if (err) done(err)
       // else done();
 
@@ -166,7 +229,7 @@ describe('uzytkownik', function() {
       Uzytkownicy.find(function (err, uzytkownik) {
         if (err) done(err);
         // else done(0)
-        expect(uzytkownik4454).to.exist;
+        expect(uzytkownikZapisany).to.exist;
         // done();
         // console.log(uzytkownik);
       })

@@ -20,7 +20,12 @@ var status         = require('http-status');
         app.get('/uzytkownik/id/:id', wagner.invoke( (Uzytkownicy) => {
             return (req, res) => {
 
-                res.json({nazwa : 'test4445', imie: 'Mieszko3', nazwisko: "Trzeci", email: "mieszko@gniezno.pl", response: req.params.id});
+                const id = req.params.id
+                Uzytkownicy.findOne({ _id: id}, (error, uzytkownik) => {
+                    res.json(uzytkownik); 
+
+                });
+                // res.json({nazwa : 'test4445', imie: 'Mieszko3', nazwisko: "Trzeci", email: "mieszko@gniezno.pl", response: req.params.id});
             }
         }));
 
