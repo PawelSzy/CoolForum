@@ -25,14 +25,13 @@ var status         = require('http-status');
                     res.json(uzytkownik); 
 
                 });
-                // res.json({nazwa : 'test4445', imie: 'Mieszko3', nazwisko: "Trzeci", email: "mieszko@gniezno.pl", response: req.params.id});
+               
             }
         }));
 
-        // app.post('/uzytkownik/utworz', (req, res) => {
-        //     res.json({nazwa : 'test4445'});
-        // });
-
+        //route - zapisz uzytkownika i zwroc jego dane w postci JSON
+        // @param - POST zawierajcy JSON z danymi uzytkowanika 
+        // @return  - JSON zawierajacy dane uzytkownika
 
         app.post('/uzytkownik/utworz', wagner.invoke( (Uzytkownicy) => {
             return (req, res) => {
@@ -65,6 +64,8 @@ var status         = require('http-status');
                     // validation passed
                     // console.log(req.body);
                     
+
+                    //zapisz uzytkownia i 
                     uzytkownik.save( (error, nowy_uzytkownik) => {
                         if (error) {
                             return res.
@@ -76,21 +77,8 @@ var status         = require('http-status');
                     });                 
                   }
                 });
-
-
-
-
-                    // res.json({nazwa : 'test4445'});
             }
         }));
-
-        // app.post('uzytkownik/utworz', wagner.invoke( (Uzytkownicy) => {
-
-        //     return (req, res) =>(req, res) => {
-        //         res.json({nazwa : 'test4445'});
-        //     });
-
-        // }));
 
         //zwroc api bo funckja bedzie traktowana jako middleware
         return api;
