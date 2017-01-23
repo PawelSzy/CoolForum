@@ -14,6 +14,7 @@ var status         = require('http-status');
         var api = express.Router();
         app.use(bodyParser.json());
 
+
         //route - pobierz uzytkownika i zwroc jego dane w postci JSON
         // @param - get z id uzytkownika w bazie danych
         // @return - JSON - dane uzytkowniak
@@ -23,13 +24,26 @@ var status         = require('http-status');
                 const id = req.params.id
                 Uzytkownicy.findOne({ _id: id}, (error, uzytkownik) => {
                     res.json(uzytkownik); 
-
                 });
-               
             }
         }));
 
-        //route - zapisz uzytkownika i zwroc jego dane w postci JSON
+
+       //route - pobierz post i zwroc jego dane w postci JSON
+        // @param - get z id posta w bazie danych
+        // @return - JSON - post
+        app.get('/post/id/:id', wagner.invoke( (Posty) => {
+            return (req, res) => {
+
+                const id = req.params.id
+                Posty.findOne({ _id: id}, (error, post) => {
+                    res.json(post); 
+                });
+            }
+        }));
+
+
+        //route - zapisz uzytkownika w baze danych i zwroc jego dane w postci JSON
         // @param - POST zawierajcy JSON z danymi uzytkowanika 
         // @return  - JSON zawierajacy dane uzytkownika
 
@@ -79,6 +93,60 @@ var status         = require('http-status');
                 });
             }
         }));
+
+
+      //route - zapisz post w bazie danych i zwroc jego dane w postci JSON
+        // @param - POST zawierajcy JSON z danymi uzytkowanika 
+        // @return  - JSON zawierajacy dane uzytkownika
+
+        app.post('/post/utworz', wagner.invoke( (Posty) => {
+            return (req, res) => {
+
+                // utworz uzytkownika z     
+                try {
+                    post = new Posty({
+                        tytul : req.body.tytul, 
+                        tresc: req.body.tresc, 
+                        data_utworzenia: req.body.data_utworzenia,
+                        id_autora: '5885e2a4bcf6de07ece716b2'
+                    });
+                } catch(e) {
+                    return res.
+                        status(status.BAD_REQUEST)
+                        .json({error: "Nie mozna zapisac postu"});
+                }
+
+
+                ///validacja danych uzytkownia
+                post.validate(function(err) {          
+                  if (err) {
+                    return res.      
+                        status(status.BAD_REQUEST)
+                        .json({error: "Błędne dane użytkownika"});
+                  }         
+                  else {
+
+                    //zapisz post i 
+                    post.save( (error, nowy_post) => {
+                        if (error) {
+                            return res.
+                                status(status.INTERNAL_SERVER_ERROR).
+                                json( { error: error.toString() } );
+                        } else {
+                            return res.json(nowy_post);
+                        }
+                    });                 
+                  }
+                });
+            }
+        }));
+
+
+
+
+
+
+
 
         //zwroc api bo funckja bedzie traktowana jako middleware
         return api;

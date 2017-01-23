@@ -25,6 +25,7 @@ var app = express();
 
 
  var models = require('../app/models/uzytkownik')(wagner);
+ var models = require('../app/models/post')(wagner);
   app.use(wagner);
 
 // var Uzytkownik = require('../app/models/uzytkownik');
