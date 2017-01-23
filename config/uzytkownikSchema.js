@@ -13,7 +13,7 @@ var uzytkownikSchema = {
     lowercase: true
   },
   data: { type: Date, default: Date.now },
-  // posty: [{ type : mongoose.Schema.Types.ObjectId, ref: 'Post' }],
+  posty: [{ type : mongoose.Schema.Types.ObjectId, ref: 'Post' }],
   liczba_postow: {type: Number , default: 0}
 };
 

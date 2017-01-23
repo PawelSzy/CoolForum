@@ -216,12 +216,12 @@ describe('prosty POST, odczyt i zapis uzytkownika do bazy danych', () => {
   });
 });
 
-describe('prosty POST, odczyt i zapis uzytkownika do bazy danych', () => { 
+describe('prosty POST, odczyt i zapis tresci Postu do bazy danych', () => { 
 
-  it('powinien odczytac zapisanego uzytkownika', (done) => {
+  it('powinien odczytac zapisany post', (done) => {
    var wyslany_Post =  {
       "id_autora": "5885e2a4bcf6de07ece716b2",
-      "tytul": "Chrzest ognia",
+      "tytul": "Miecz przeznaczenia",
       "tresc": "Na moim sihillu – warknął Zoltan, "
     };
 
@@ -251,7 +251,7 @@ describe('prosty POST, odczyt i zapis uzytkownika do bazy danych', () => {
             .end(function(err, res) {
               res.body.should.have.property("tytul");
               res.body.should.have.property("tresc");
-              res.body.should.have.property("id_autora");
+             res.body.should.have.property("id_autora");
 
               res.body.tresc.should.be.equal(wyslany_Post.tresc);
               res.body.tytul.should.be.equal(wyslany_Post.tytul);

@@ -108,7 +108,7 @@ var status         = require('http-status');
                         tytul : req.body.tytul, 
                         tresc: req.body.tresc, 
                         data_utworzenia: req.body.data_utworzenia,
-                        id_autora: '5885e2a4bcf6de07ece716b2'
+                        id_autora: req.body.id_autora //'5885e2a4bcf6de07ece716b2'
                     });
                 } catch(e) {
                     return res.
