@@ -66,8 +66,20 @@ module.exports = function(wagner, app) {
             }
         }));
 
+    app.delete('/uzytkownik/id/:id', wagner.invoke( (Uzytkownicy) => {
+        return (req, res) => {
 
-		
+            const id = req.params.id
+            Uzytkownicy.findByIdAndRemove(id, (error, deleteResponse) => {
+                if(error) {
+                    return error
+                }
+                else {
+                    res.json(deleteResponse);
+                } 
+            });
+        }
+    }));		
 		
 		
 		

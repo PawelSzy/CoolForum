@@ -283,6 +283,40 @@ describe('prosty POST, odczyt i zapis uzytkownika do bazy danych', () => {
       
     });
   });
+
+  it('czy delete uzytkownik dziala', (done) => {
+
+   var uzytkownik_Wyslany_Text =  {
+      "nazwa": "testuje delete nazwa",
+      "imie": "Karol",
+      "nazwisko": "Cesarz Niemiec, Krol Aragoni i Kastyli...",
+      "email":  "karol@madryt.hr",
+      "passwordhash": "La Caramba"
+    };
+
+  request(myLocalhost)
+    .post('/uzytkownik/utworz')
+    .send(uzytkownik_Wyslany_Text)
+    .expect(200)
+    .expect( (res) => {
+      res.body.should.have.property("_id");
+
+    }).end( (err, res) => {
+
+      var id_uzytkownika= res.body._id;
+      ///// teraz tesutje delete 
+      request(myLocalhost)
+        .delete('/uzytkownik/id/'+id_uzytkownika).
+        end( (err, res) => {
+          request(myLocalhost)
+            .get('/uzytkownik/id/'+id_uzytkownika).
+            expect(404);
+            done();        
+        });
+    });
+  });
+
+
 });
 
 
@@ -354,8 +388,8 @@ describe('prosty POST, odczyt i zapis tresci Postu do bazy danych', () => {
 
    var wyslany_Post =  {
       "id_autora": przyklad_id_autora,
-      "tytul": "Miecz przeznaczenia",
-      "tresc": "Na moim sihillu – warknął Zoltan, ",
+      "tytul": "Wieza Jaskulki",
+      "tresc": "Jest wodka, ",
       "temat" : "58872530ec1f86052bb1d97d"
     };
 
