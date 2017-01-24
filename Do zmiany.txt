@@ -1,2 +1,42 @@
 Do zmiany
 
+post - data ostatniej modyfikacji
+
+
+
+
+id_autora
+5885e2a4bcf6de07ece716b2
+
+id_postu
+5885fc9cb095db08a82b9102
+
+
+I must not fear. Fear is the mind-killer. Fear is the little-death that brings total obliteration
+
+
+
+Ksiazki
+58872530ec1f86052bb1d97d
+
+Sensacyjne
+588727a3a4ab6605d69f2fb0
+
+SF
+588727caa4ab6605d69f2fb1
+
+Historyczne:
+58872880a4ab6605d69f2fb2
+
+Geopolityka
+588728aba4ab6605d69f2fb3
+
+
+
+
+Do testowania
+58872cc42d9e5e05e8bc6b4b
+
+
+
+

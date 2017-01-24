@@ -32,6 +32,10 @@ schema.path('tytul').validate(function (v) {
   return v.length < 32;
 });
 
+schema.method('dodajAncestors', function (idNowegoPodtematu)  {
+    this.ancestors.push(idNowegoPodtematu);
+});
+
 module.exports = schema;
 module.exports.tematSchema = tematSchema;
 

@@ -33,6 +33,22 @@ var status         = require('http-status');
 
 
 
+        var wstawNowegoPotomka = (id_rodzica, id_potomka) => {
+            wagner.invoke( (Tematy) => {
+                try {
+                    Tematy.findOne({ _id: id_rodzica}, (error, temat_rodzic) => {
+                        temat_rodzic.dodajAncestors(id_potomka);
+                        temat_rodzic.save();
+                    });
+                } catch(e) {
+                    console.log("nie moge wstawNowegoPotomka");
+                }                                   
+            });
+        }
+
+
+
+
         //route - pobierz uzytkownika i zwroc jego dane w postci JSON
         // @param - get z id uzytkownika w bazie danych
         // @return - JSON - dane uzytkowniak
@@ -188,7 +204,9 @@ var status         = require('http-status');
                     temat = new Tematy({
                         tytul : req.body.tytul, 
                         data_utworzenia: req.body.data_utworzenia,
-                        id_autora: req.body.id_autora //'5885e2a4bcf6de07ece716b2'
+                        id_autora: req.body.id_autora, //'5885e2a4bcf6de07ece716b2'
+                        parent: req.body.parent,
+                        ancestors: req.body.ancestors 
                     });
                 } catch(e) {
                     return res.
@@ -215,6 +233,11 @@ var status         = require('http-status');
                         } else {
 
                             ////////// Tutaj zwracamy utworzony temat
+
+                            if (nowy_temat.parent) {
+                                wstawNowegoPotomka(nowy_temat.parent,nowy_temat.id );
+                            }
+
                             return res.json(nowy_temat);
                         }
                     });                 

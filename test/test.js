@@ -425,6 +425,86 @@ describe('prosty POST, odczyt i zapis tematu do bazy danych', () => {
 });
 
 
+describe('Testowanie rodzic i potemek przy tworzeniu tematu', () => {
+
+  it('Powiennien przy tworzeniu nowego tematu, dodac id nowgo tematu do tablicy jego przodka', (done) => {
+   
+    const id_autora = "5885e2a4bcf6de07ece716b2";
+
+    var temat_rodzic =  {
+      "tytul": "Do testowania",
+      "id_autora": id_autora
+    };
+
+
+    var temat_potomek =  {
+      "tytul": "Potomek",
+      "id_autora": id_autora
+    };
+
+    request(myLocalhost)
+      .post('/temat/utworz')
+      .send(temat_rodzic)
+      .expect(200)
+      .expect( (res) => {
+        res.body.should.have.property("_id");
+      })
+      .end((err, res) => {
+          if(err) {
+            return done(err);
+          } else {
+            res.body.should.have.property("_id");
+
+            const id_tematu_rodzica = res.body._id;
+            temat_potomek.parent = id_tematu_rodzica;
+
+
+            request(myLocalhost)
+            .post('/temat/utworz')
+            .send(temat_potomek)
+            .expect(200)
+            .expect( (res) => {
+              res.body.should.have.property("_id");
+            })            
+            .end((err, res) => {
+              if(err) {
+                return done(err);
+              } else {
+                const id_tematu_potomka = res.body._id;
+   
+                ///////  teraz sprawdzam czy zapisano rodzica           
+                request(myLocalhost)
+                    .get('/temat/id/'+id_tematu_rodzica)
+                    .expect(200)
+                    .end((err, res) => {
+                      res.body.should.have.property("_id");
+                      res.body.should.have.property("ancestors");
+                      res.body.ancestors.should.be.a('array');
+                      assert(res.body.ancestors.includes(id_tematu_potomka));
+                      done();
+                    });
+              }
+            });
+          }
+      });  
+
+
+
+ 
+                  
+      //     
+      //             }});
+      //           }
+      //         });
+      //     });
+      //   });        
+      // });
+  });    
+});
+
+
+
+
 
 
 
