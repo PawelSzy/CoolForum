@@ -272,7 +272,8 @@ describe('prosty POST, odczyt i zapis tresci Postu do bazy danych', () => {
    var wyslany_Post =  {
       "id_autora": "5885e2a4bcf6de07ece716b2",
       "tytul": "Miecz przeznaczenia",
-      "tresc": "Na moim sihillu – warknął Zoltan, "
+      "tresc": "Na moim sihillu – warknął Zoltan, ",
+      "temat" : "58872530ec1f86052bb1d97d"
     };
 
   request(myLocalhost)
@@ -302,7 +303,9 @@ describe('prosty POST, odczyt i zapis tresci Postu do bazy danych', () => {
               res.body.should.have.property("tytul");
               res.body.should.have.property("tresc");
              res.body.should.have.property("id_autora");
+             res.body.should.have.property("temat");
 
+             res.body.temat.should.be.equal(wyslany_Post.temat);
               res.body.tresc.should.be.equal(wyslany_Post.tresc);
               res.body.tytul.should.be.equal(wyslany_Post.tytul);
               res.body.id_autora.should.be.equal(wyslany_Post.id_autora);
@@ -488,22 +491,14 @@ describe('Testowanie rodzic i potemek przy tworzeniu tematu', () => {
           }
       });  
 
-
-
- 
-                  
-      //     
-      //             }});
-      //           }
-      //         });
-      //     });
-      //   });        
-      // });
   });    
 });
 
 
+describe('Znajdz wszystkich podtematy danego tematu (wyszukaj wszystkich potomkow)', () => {
 
+
+});
 
 
 

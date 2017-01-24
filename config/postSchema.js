@@ -12,6 +12,13 @@ var postSchema = {
   ///// tutaj umiescic temat w ktorym jest ten post
   // id_tematu: {type; ObjectId, ref: "tematy"}
 
+
+  temat: {
+	type : mongoose.Schema.Types.ObjectId, 
+	ref: 'Temat'
+  },
+
+
 };
 
 
