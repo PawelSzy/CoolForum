@@ -74,6 +74,21 @@ module.exports = function(wagner, app) {
 			});
 		}
 	}));	
+
+	app.delete('/temat/id/:id', wagner.invoke( (Tematy) => {
+		return (req, res) => {
+
+			const id = req.params.id
+			Tematy.findByIdAndRemove(id, (error, deleteResponse) => {
+				if(error) {
+					return error
+				}
+				else {
+					res.json(deleteResponse);
+				} 
+			});
+		}
+	}));
 	
 	
 }

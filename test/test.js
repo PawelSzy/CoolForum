@@ -528,17 +528,15 @@ describe('Testowanie rodzic i potemek przy tworzeniu tematu', () => {
 
   it('Powiennien przy tworzeniu nowego tematu, dodac id nowgo tematu do tablicy jego przodka', (done) => {
    
-    const id_autora = "5885e2a4bcf6de07ece716b2";
-
     var temat_rodzic =  {
       "tytul": "Do testowania",
-      "id_autora": id_autora
+      "id_autora": przyklad_id_autora
     };
 
 
     var temat_potomek =  {
       "tytul": "Potomek",
-      "id_autora": id_autora
+      "id_autora": przyklad_id_autora
     };
 
     request(myLocalhost)
@@ -588,6 +586,44 @@ describe('Testowanie rodzic i potemek przy tworzeniu tematu', () => {
       });  
 
   });    
+
+
+  it('czy delete tematu dziala', (done) => {
+
+    var temat_rodzic =  {
+      "tytul": "Do testowania tematu",
+      "id_autora": przyklad_id_autora
+    };
+
+  request(myLocalhost)
+    .post('/temat/utworz')
+    .send(temat_rodzic)
+    .expect(200)
+    .expect( (res) => {
+      res.body.should.have.property("_id");
+
+    }).end( (err, res) => {
+
+      var id_tematu= res.body._id;
+      ///// teraz tesutje delete 
+      request(myLocalhost)
+        .delete('/temat/id/'+id_tematu).
+        end( (err, res) => {
+          request(myLocalhost)
+            .get('/temat/id/'+id_tematu)
+            .expect(200)
+            .end( (err, res) => {
+                assert(!res.body);
+                done();     
+            });
+   
+        });
+    });
+  });
+
+
+
+
 });
 
 
