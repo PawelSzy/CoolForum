@@ -21,7 +21,7 @@ var status         = require('http-status');
         var zwieksz_id_autora = (id_autora, zwieksz_o =1) => {
             wagner.invoke( (Uzytkownicy) => {
                 try {
-                    Uzytkownicy.findOne({ _id: id_autora}, {passwordhash: 0}, (error, uzytkownik) => {
+                    Uzytkownicy.findById(id_autora, {passwordhash: 0}, (error, uzytkownik) => {
                         uzytkownik.zwiekszLicznikLiczbaPostow( zwieksz_o );
                         uzytkownik.save();
                     });
@@ -35,7 +35,7 @@ var status         = require('http-status');
         var nowyPostZnaczyJegoId_w_temacie = (id_postu, id_tematu) => {
             wagner.invoke( (Tematy) => {
                try {
-                    Tematy.findOne({ _id: id_tematu}, (error, temat) => {
+                    Tematy.findById(id_tematu, (error, temat) => {
                         temat.dodajPost(id_postu);
                         temat.save();
                     });
@@ -50,7 +50,7 @@ var status         = require('http-status');
         var wstawNowegoPotomka = (id_rodzica, id_potomka) => {
             wagner.invoke( (Tematy) => {
                 try {
-                    Tematy.findOne({ _id: id_rodzica}, (error, temat_rodzic) => {
+                    Tematy.findById(id_rodzica, (error, temat_rodzic) => {
                         temat_rodzic.dodajAncestors(id_potomka);
                         temat_rodzic.save();
                     });
@@ -70,7 +70,7 @@ var status         = require('http-status');
             return (req, res) => {
 
                 const id = req.params.id
-                Uzytkownicy.findOne({ _id: id}, {passwordhash: 0}, (error, uzytkownik) => {
+                Uzytkownicy.findById(id, {passwordhash: 0}, (error, uzytkownik) => {
                     res.json(uzytkownik); 
                 });
             }
@@ -85,7 +85,7 @@ var status         = require('http-status');
             return (req, res) => {
 
                 const id = req.params.id
-                Tematy.findOne({ _id: id}, (error, temat) => {
+                Tematy.findById(id, (error, temat) => {
                     res.json(temat); 
                 });
             }
@@ -99,7 +99,7 @@ var status         = require('http-status');
             return (req, res) => {
 
                 const id = req.params.id
-                Posty.findOne({ _id: id}, (error, post) => {
+                Posty.findById(id, (error, post) => {
                     res.json(post); 
                 });
             }
@@ -180,7 +180,6 @@ var status         = require('http-status');
                         .json({error: "Nie mozna zapisac postu"});
                 }
 
-
                 ///validacja danych uzytkownia
                 post.validate(function(err) {          
                   if (err) {
@@ -215,8 +214,6 @@ var status         = require('http-status');
             }
         }));
 
-
-
         app.post('/temat/utworz', wagner.invoke( (Tematy) => {
             return (req, res) => {
 
@@ -234,7 +231,6 @@ var status         = require('http-status');
                         status(status.BAD_REQUEST)
                         .json({error: "Nie mozna utworzyc nowego tematu"});
                 }
-
 
                 ///validacja danych uzytkownia
                 temat.validate(function(err) {          
@@ -266,15 +262,6 @@ var status         = require('http-status');
                 });
             }
         }));
-
-
-
-    app.get('/znajdz')
-
-
-
-
-
 
         //zwroc api bo funckja bedzie traktowana jako middleware
         return api;

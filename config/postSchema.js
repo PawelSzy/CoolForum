@@ -12,18 +12,14 @@ var postSchema = {
   ///// tutaj umiescic temat w ktorym jest ten post
   // id_tematu: {type; ObjectId, ref: "tematy"}
 
-
   temat: {
 	type : mongoose.Schema.Types.ObjectId, 
 	ref: 'Temat'
   },
-
-
 };
 
 
 var schema = new mongoose.Schema(postSchema);
-
 
 //ustaw maksymalna dlugosc tytulu
 schema.path('tytul').validate(function (v) {

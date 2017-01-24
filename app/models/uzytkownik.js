@@ -16,8 +16,6 @@ module.exports = function(wagner) {
 	var uzytkownikSchema = require('../../config/uzytkownikSchema');
 	var Uzytkownicy = mongoose.model('Uzytkownik', uzytkownikSchema);
 
-	
-
 	wagner.factory('Uzytkownicy', function() {
 		return Uzytkownicy;
 	});

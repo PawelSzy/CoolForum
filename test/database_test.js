@@ -3,17 +3,17 @@
 
 
 'use strict';
-var chai = require('chai')
-  , expect = chai.expect
-  , should = chai.should(),
-chaiHttp = require('chai-http'),
-assert = chai.assert;
+var chai = require('chai'),
+  // expect = chai.expect,
+  // should = chai.should(),
+chaiHttp = require('chai-http');
+// assert = chai.assert;
 
 chai.use(chaiHttp);
 
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/uzytkownik');;
+mongoose.connect('mongodb://localhost/uzytkownik');
 
 describe('uzytkownik', function() {
 
@@ -22,7 +22,7 @@ describe('uzytkownik', function() {
 		db.on('error', console.error.bind(console, 'connection error:'));
 		db.once('open', function() {
 		  var Uzytkownicy = require('../app/models/uzytkownik');
-		  var uzytkownik= new Uzytkownicy({nazwa : 'testKrol', imie: 'Jagiello', nazwisko: "Pierwszy", email: "jagielo@krakow.pl", passwordhash: "hhadjdha2"});
+		  var uzytkownik= new Uzytkownicy({nazwa : 'testKrol', imie: 'Jagiello', nazwisko: 'Pierwszy', email: 'jagielo@krakow.pl', passwordhash: 'hhadjdha2'});
 		
 
 		uzytkownik.save(function (err, uzytkownik) {
@@ -33,7 +33,7 @@ describe('uzytkownik', function() {
 		  Uzytkownicy.find(function (err, uzytkownik) {
 		  	if (err) return console.error(err);
 		  	console.log(uzytkownik);
-			})
+			});
 		});
  		done();
  });
