@@ -36,6 +36,10 @@ schema.method('dodajAncestors', function (idNowegoPodtematu)  {
     this.ancestors.push(idNowegoPodtematu);
 });
 
+schema.method('dodajPost', function (idPostu)  {
+    this.posty.push(idPostu);
+});
+
 module.exports = schema;
 module.exports.tematSchema = tematSchema;
 

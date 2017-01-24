@@ -33,6 +33,9 @@ var app = express();
 
 const myLocalhost = 'http://localhost:3000';
 
+
+var przyklad_id_postu = "58875ecaee5ec008a8188601"
+
    var mongoose = require('mongoose');
 
 // var models = require('../app/models/uzytkownik')(wagner);
@@ -77,7 +80,7 @@ describe('uzytkownik', function(done) {
 
   it('validacja konczy sie bledem jesli passwordhash nie zostalo zdefiniowane', function(done) { 
     wagner.invoke((Uzytkownicy) => {
-    var u = new Uzytkownicy({nazwa: "Halabardnik", nazwisko: "Kowalski", });
+    var u = new Uzytkownicy({nazwa: "Halabardnik", nazwisko: "Kowalski",  });
         u.validate(function(err) {
             expect(err.errors.passwordhash).to.exist;
             done();
@@ -99,7 +102,7 @@ describe('uzytkownik', function(done) {
 });
 
 
-describe('tworzenie tematu', () => {
+describe('tworzenie tematu', function(done) {
   it('walidacja tematu' , (done) => {
     wagner.invoke((Tematy) => {
         var u = new Tematy({tytul: "Frank Herberts Quotes" });
@@ -107,7 +110,7 @@ describe('tworzenie tematu', () => {
         done();
     }).catch( (e) => done(e) ); 
   });
-});
+
 
   it('walidacja tematu' , (done) => {
     wagner.invoke((Tematy) => {
@@ -116,7 +119,8 @@ describe('tworzenie tematu', () => {
             expect(err).not.to.exist;
             done();
         });
-    })
+    });
+  });
 
 
   it('wykryj ze nie podano tematu' , (done) => {
@@ -127,23 +131,37 @@ describe('tworzenie tematu', () => {
             done();
         });
     });
+  });
 
 
-  it('wykryj ze nie podano nie istniejacy parenttematu' , (done) => {
+  it('wykryj ze nie podano nie istniejacy parent tematu' , (done) => {
     wagner.invoke((Tematy) => {
         var u = new Tematy({tytul: "Frank Herberts Quotes III", parent: 0});
         u.validate(function(err) {
-            res.body.should.have.property("imie");
+            expect(err.errors.parent).to.exist;
             done();
         });
       }) ;
     });
 
 
+  it(' Temat prawdz czy dziala fukcja dodaj post', (done) => {
+    wagner.invoke((Tematy) => {
+        var u = new Tematy({tytul: "Frank Herberts Quotes IV"});
+        assert.isDefined(u, "Temat zostal zdefiniowany");
+        const testowane_id_postu = przyklad_id_postu;
 
-});
 
-
+        u.dodajPost(testowane_id_postu);
+        assert.isDefined(u, "Temat zostal zdefiniowany");
+        // expect(u.posty2).to.exist;
+        expect(u.posty).to.include( testowane_id_postu);
+        u.validate(function(err) {
+            expect(err).not.to.exist;
+            done();
+        });
+      })
+    }); 
 });
 
 
@@ -266,6 +284,21 @@ describe('prosty POST, odczyt i zapis uzytkownika do bazy danych', () => {
   });
 });
 
+
+var czyPostDodanyDoTematu = (post_id, temat_id, done, url) => {
+    request(url)
+            .get('/temat/id/'+temat_id).
+            expect(200).
+            expect('Content-Type', 'application/json')
+            .end((err, res) => { 
+              res.body.should.have.property('posty');
+              assert(res.body.posty.includes(post_id), "nie id w temacie");
+              done();
+            });
+
+};
+
+
 describe('prosty POST, odczyt i zapis tresci Postu do bazy danych', () => { 
 
   it('powinien odczytac zapisany post', (done) => {
@@ -291,12 +324,12 @@ describe('prosty POST, odczyt i zapis tresci Postu do bazy danych', () => {
         } else {
           res.body.should.have.property("_id");
 
-          const id = res.body._id;
+          const id_nowy_post = res.body._id;
 
 
           /// teraz sprawdzam GET - pobierz Post  
           request(myLocalhost)
-            .get('/post/id/'+id).
+            .get('/post/id/'+id_nowy_post).
             expect(200).
             expect('Content-Type', 'application/json')
             .end(function(err, res) {
@@ -309,7 +342,8 @@ describe('prosty POST, odczyt i zapis tresci Postu do bazy danych', () => {
               res.body.tresc.should.be.equal(wyslany_Post.tresc);
               res.body.tytul.should.be.equal(wyslany_Post.tytul);
               res.body.id_autora.should.be.equal(wyslany_Post.id_autora);
-              done();
+
+              czyPostDodanyDoTematu(id_nowy_post, wyslany_Post.temat, done, myLocalhost)
           });
 
         }    

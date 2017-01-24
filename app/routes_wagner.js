@@ -31,6 +31,20 @@ var status         = require('http-status');
             });
         }
 
+                        
+        var nowyPostZnaczyJegoId_w_temacie = (id_postu, id_tematu) => {
+            wagner.invoke( (Tematy) => {
+               try {
+                    Tematy.findOne({ _id: id_tematu}, (error, temat) => {
+                        temat.dodajPost(id_postu);
+                        temat.save();
+                    });
+                } catch(e) {
+                    console.log("nie moge zapisac id nowego postu w odpowiadajacym mu temacie ");
+                }
+            });      
+        };
+
 
 
         var wstawNowegoPotomka = (id_rodzica, id_potomka) => {
@@ -42,9 +56,9 @@ var status         = require('http-status');
                     });
                 } catch(e) {
                     console.log("nie moge wstawNowegoPotomka");
-                }                                   
+                }               
             });
-        }
+        };
 
 
 
@@ -185,8 +199,14 @@ var status         = require('http-status');
                         } else {
 
                             const id_autora = nowy_post.id_autora;
+                            const id_tematu= post.temat;
+                            const id_postu = nowy_post._id;
+                            
+                            if(id_tematu) { 
+                                nowyPostZnaczyJegoId_w_temacie(id_postu, id_tematu);
+                            }
                             zwieksz_id_autora(id_autora);
-
+  
                             return res.json(nowy_post);
                         }
                     });                 
@@ -246,6 +266,10 @@ var status         = require('http-status');
                 });
             }
         }));
+
+
+
+    app.get('/znajdz')
 
 
 

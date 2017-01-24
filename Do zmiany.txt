@@ -2,6 +2,14 @@ Do zmiany
 
 post - data ostatniej modyfikacji
 
+Zmien
+Delete
+
+Angular JS
+
+
+
+
 
 
 
