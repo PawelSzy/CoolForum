@@ -34,9 +34,10 @@ var app = express();
 const myLocalhost = 'http://localhost:3000';
 
 
-var przyklad_id_postu = "58875ecaee5ec008a8188601"
+var przyklad_id_postu = "58875ecaee5ec008a8188601";
+var przyklad_id_autora = "5885e2a4bcf6de07ece716b2";
 
-   var mongoose = require('mongoose');
+var mongoose = require('mongoose');
 
 // var models = require('../app/models/uzytkownik')(wagner);
 
@@ -303,7 +304,7 @@ describe('prosty POST, odczyt i zapis tresci Postu do bazy danych', () => {
 
   it('powinien odczytac zapisany post', (done) => {
    var wyslany_Post =  {
-      "id_autora": "5885e2a4bcf6de07ece716b2",
+      "id_autora": przyklad_id_autora,
       "tytul": "Miecz przeznaczenia",
       "tresc": "Na moim sihillu – warknął Zoltan, ",
       "temat" : "58872530ec1f86052bb1d97d"
@@ -345,15 +346,42 @@ describe('prosty POST, odczyt i zapis tresci Postu do bazy danych', () => {
 
               czyPostDodanyDoTematu(id_nowy_post, wyslany_Post.temat, done, myLocalhost)
           });
-
         }    
-        // done();
-      
     });
-
-
-
   });
+
+  it('czy delete postu dziala', (done) => {
+
+   var wyslany_Post =  {
+      "id_autora": przyklad_id_autora,
+      "tytul": "Miecz przeznaczenia",
+      "tresc": "Na moim sihillu – warknął Zoltan, ",
+      "temat" : "58872530ec1f86052bb1d97d"
+    };
+
+  request(myLocalhost)
+    .post('/post/utworz')
+    .send(wyslany_Post)
+    .expect(200)
+    .expect( (res) => {
+      res.body.should.have.property("_id");
+      res.body.should.have.property("tresc");
+      res.body.should.have.property("tytul");
+    }).end( (err, res) => {
+
+      var id_postu = res.body._id;
+      ///// teraz tesutje delete 
+      request(myLocalhost)
+        .delete('/post/id/'+id_postu).
+        end( (err, res) => {
+          request(myLocalhost)
+            .get('/post/id/'+id_postu).
+            expect(404);
+            done();        
+        });
+    });
+  });
+
 
 });
 

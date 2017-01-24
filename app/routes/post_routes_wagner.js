@@ -8,7 +8,11 @@ module.exports = function(wagner, app) {
 
 			const id = req.params.id
 			Posty.findById(id, (error, post) => {
-				res.json(post); 
+				if(error) {
+					return error;
+				} else {
+					res.json(post); 
+				}
 			});
 		}
 	}));
@@ -101,6 +105,21 @@ module.exports = function(wagner, app) {
 		}
 	}));
 
+
+	app.delete('/post/id/:id', wagner.invoke( (Posty) => {
+		return (req, res) => {
+
+			const id = req.params.id
+			Posty.findByIdAndRemove(id, (error, deleteResponse) => {
+				if(error) {
+					return error
+				}
+				else {
+					res.json(deleteResponse);
+				} 
+			});
+		}
+	}));
 
 }
 
