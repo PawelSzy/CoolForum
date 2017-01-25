@@ -1,4 +1,6 @@
 module.exports = function(wagner, app) {
+
+	var _ = require('lodash');
 	
 	//route - pobierz post i zwroc jego dane w postci JSON
 	// @param - get z id posta w bazie danych
@@ -154,14 +156,48 @@ module.exports = function(wagner, app) {
 				if(error) {
 					return error
 				}
-				else {
-					const zmiejsz_o =1;
-				
+				else {				
 					res.json(deleteResponse);
 				} 
 			});
 		}
 	}));
+
+
+	app.patch('/post/id/:id',	wagner.invoke( (Posty) => {
+        return (req, res) => {
+
+            try {
+                post = new Posty({
+                    tytul : req.body.tytul, 
+                    tresc: req.body.tresc,
+                    data_ostatniej_modyfikacji: JSON.stringify({ type: Date, default: Date.now })
+                });
+            } catch(e) {
+                return res.
+                    status(status.BAD_REQUEST)
+                    .json({error: "Nie mozna modyfikowac postu"});
+            }
+
+
+
+            const id = req.params.id;
+
+            var body = _.pick(req.body, ['tytul', 'tresc']);
+
+			body['data_ostatniej_modyfikacji'] =  new Date().toString();
+
+            Posty.findByIdAndUpdate(id, {$set: body}, {new: true}, (error, updateResponse) => {
+                if(error) {
+                    return error
+                }
+                else {
+                    return res.json(updateResponse);
+                }; 
+            });
+        };
+    }));
+		
 
 }
 

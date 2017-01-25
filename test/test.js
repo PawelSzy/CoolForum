@@ -382,21 +382,24 @@ describe('prosty POST, odczyt i zapis uzytkownika do bazy danych', () => {
 });
 
 
-var czyPostDodanyDoTematu = (post_id, temat_id, done, url) => {
-    request(url)
-            .get('/temat/id/'+temat_id).
-            expect(200).
-            expect('Content-Type', 'application/json')
-            .end((err, res) => { 
-              res.body.should.have.property('posty');
-              assert(res.body.posty.includes(post_id), 'nie id w temacie');
-              done();
-            });
 
-};
 
 
 describe('prosty POST, odczyt i zapis tresci Postu do bazy danych', () => { 
+
+
+  var czyPostDodanyDoTematu = (post_id, temat_id, done, url) => {
+      request(url)
+              .get('/temat/id/'+temat_id).
+              expect(200).
+              expect('Content-Type', 'application/json')
+              .end((err, res) => { 
+                res.body.should.have.property('posty');
+                assert(res.body.posty.includes(post_id), 'nie id w temacie');
+                done();
+              });
+
+  };
 
   it('powinien odczytac zapisany post', (done) => {
    var wyslany_Post =  {
@@ -478,7 +481,66 @@ describe('prosty POST, odczyt i zapis tresci Postu do bazy danych', () => {
     });
   });
 
-  // it('czy patch postu  (zmien istniejacy post) dziala', (done) => {
+
+  it('czy patch post  (zmien istniejacy post) dziala', (done) => {
+
+   var post_Wyslany_Text =  {
+      'tytul': 'testuje post',
+      'tresc': "tresc do zmiany",
+      "id_autora": przyklad_id_autora
+
+    };
+  
+    request(myLocalhost)
+      .post('/post/utworz')
+      .send(post_Wyslany_Text)
+      .expect(200)
+      .expect( (res) => {
+        res.body.should.have.property('_id');
+
+      }).end( (err, res) => { 
+        if(err) {
+          return done(err);
+        };
+    
+        var id_postu= res.body._id;
+
+        const zmieniona_tytul = 'zmieniony post';
+        const zmieniona_tresc = 'tresc zostala zmieniona';
+        const data_modyfikacji = JSON.stringify({ type: Date, default: Date.now });
+
+        post_Wyslany_Text.tytul = zmieniona_tytul;
+        post_Wyslany_Text.tresc = zmieniona_tresc;
+        post_Wyslany_Text.data_ostatniej_modyfikacji = data_modyfikacji;
+
+         request(myLocalhost)
+            .patch('/post/id/' + id_postu)
+            .send(post_Wyslany_Text)
+            .end ( (err, res) => {
+                if(err) {
+                  return done(err);
+                };
+                res.body.should.have.property('_id');
+
+                 request(myLocalhost)
+                  .get('/post/id/'+id_postu)
+                  .end( (err, res) => {
+                     if(err) {
+                      return done(err);
+                    };
+                      res.body.should.have.property('_id');
+                      res.body.should.have.property('tytul');
+                      res.body.should.have.property('tresc');
+                      res.body.should.have.property('data_ostatniej_modyfikacji');
+                      res.body.tytul.should.be.equal(zmieniona_tytul);
+                      res.body.tresc.should.be.equal(zmieniona_tresc);
+
+                      done();
+
+                  });
+            });
+      });
+  });
 
   // )};
 });

@@ -9,6 +9,7 @@ var postSchema = {
   tytul: { type: String, required: true},
   tresc: { type: String, required: true},
   data_utworzenia: { type: Date, default: Date.now },
+  data_ostatniej_modyfikacji: { type: Date, default: Date.now },
   ///// tutaj umiescic temat w ktorym jest ten post
   // id_tematu: {type; ObjectId, ref: "tematy"}
 
