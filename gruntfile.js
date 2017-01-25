@@ -60,7 +60,7 @@ module.exports = function(grunt) {
                     args: [],
                     ignoredFiles: ['README.md', 'node_modules/**', '.DS_Store'],
                     watchedExtensions: ['js'],
-                    watchedFolders: ['app', 'config'],
+                    watchedFolders: ['app/**', 'config/**', ],
                     debug: true,
                     delayTime: 1,
                     env: {
@@ -94,6 +94,12 @@ module.exports = function(grunt) {
                 logConcurrentOutput: true
             }
         },
+        mocha: {
+            options: {
+                reporter: 'spec'
+            },
+            src: ['test/**/*.js']
+        },       
         mochaTest: {
             options: {
                 reporter: 'spec'

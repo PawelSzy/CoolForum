@@ -40,6 +40,11 @@ schema.method('dodajPost', function (idPostu)  {
     this.posty.push(idPostu);
 });
 
+schema.method('usunPost', function (idPostu)  {
+  this.posty = this.posty.filter(item => item !== idPostu);
+});
+
+
 module.exports = schema;
 module.exports.tematSchema = tematSchema;
 

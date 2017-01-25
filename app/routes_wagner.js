@@ -7,7 +7,6 @@ var bodyParser     = require('body-parser');
 var status         = require('http-status');
 
 
-
     module.exports = function(wagner, app) {
 
         //tworze gdyz routes_wagner bedzie zwracany jako middleware - funkcja musi zwrocic 
@@ -21,5 +20,4 @@ var status         = require('http-status');
 
         //zwroc api bo funckja bedzie traktowana jako middleware
         return api;
-
     };

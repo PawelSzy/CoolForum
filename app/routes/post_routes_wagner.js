@@ -31,7 +31,22 @@ module.exports = function(wagner, app) {
 				console.log("nie moge zwiekszyc liczby postow danego uzytkownika");
 			}                                   
 		});
-	}	
+	};
+
+	var zmiejsz_id_autora = (id_autora, zmiejsz_o = 1) => {
+		wagner.invoke( (Uzytkownicy) => {
+			try {
+				Uzytkownicy.findById(id_autora, {passwordhash: 0}, (error, uzytkownik) => {
+					uzytkownik.zmiejszLicznikLiczbaPostow( zmiejsz_o );
+					uzytkownik.save();
+				});
+			} catch(e) {
+				console.log("nie moge zmiejszyc liczby postow danego uzytkownika");
+			}                                   
+		});
+	};
+
+
 	
 	var nowyPostZnaczyJegoId_w_temacie = (id_postu, id_tematu) => {
 		wagner.invoke( (Tematy) => {
@@ -46,7 +61,19 @@ module.exports = function(wagner, app) {
 		});      
 	};
 
-	
+		var usunPostZnaczyTakzeUsunJegoId_w_temacie = (id_postu, id_tematu) => {
+		wagner.invoke( (Tematy) => {
+		   try {
+				Tematy.findById(id_tematu, (error, temat) => {
+					temat.usunPost(id_postu);
+					temat.save();
+				});
+			} catch(e) {
+				console.log("nie moge zapisac id nowego postu w odpowiadajacym mu temacie ");
+			}
+		});      
+	};
+
 	
 	
 	//route - zapisz post w bazie danych i zwroc jego dane w postci JSON
@@ -109,12 +136,27 @@ module.exports = function(wagner, app) {
 	app.delete('/post/id/:id', wagner.invoke( (Posty) => {
 		return (req, res) => {
 
-			const id = req.params.id
-			Posty.findByIdAndRemove(id, (error, deleteResponse) => {
+			const id_postu = req.params.id
+			var id_autora;
+			var id_tematu;
+			Posty.findById(id_postu, (error, post) => {
+							if(error) {
+								return error;
+							} else {
+								id_tematu= post.temat;
+								id_autora = post.id_autora; 
+								const zmiejsz_o =1;
+				 				zmiejsz_id_autora(id_autora, zmiejsz_o);			
+								usunPostZnaczyTakzeUsunJegoId_w_temacie(id_postu, id_tematu); 						
+							}
+			});			
+			Posty.findByIdAndRemove(id_postu, (error, deleteResponse) => {
 				if(error) {
 					return error
 				}
 				else {
+					const zmiejsz_o =1;
+				
 					res.json(deleteResponse);
 				} 
 			});

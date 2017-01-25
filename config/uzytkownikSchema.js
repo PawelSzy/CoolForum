@@ -18,8 +18,6 @@ var uzytkownikSchema = {
 };
 
 
-
-
 var schema = new mongoose.Schema(uzytkownikSchema);
 
 // schema.virtual('liczba_postow').get( function() {
@@ -30,6 +28,12 @@ var schema = new mongoose.Schema(uzytkownikSchema);
 schema.method('zwiekszLicznikLiczbaPostow', function (liczba_nowych_postow = 1)  {
     this.liczba_postow +=liczba_nowych_postow ;
 });
+
+
+schema.method('zmiejszLicznikLiczbaPostow', function (liczba_usunietych_postow = 1)  {
+    this.liczba_postow -= liczba_usunietych_postow ;
+});
+
 
 schema.set('toObject', { virtuals: true });
 schema.set('toJSON', { virtuals: true });

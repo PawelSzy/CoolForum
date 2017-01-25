@@ -66,7 +66,6 @@ module.exports = function(wagner, app) {
 						if (nowy_temat.parent) {
 							wstawNowegoPotomka(nowy_temat.parent,nowy_temat.id );
 						}
-
 						return res.json(nowy_temat);
 					}
 				});                 

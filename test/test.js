@@ -34,8 +34,8 @@ var app = express();
 const myLocalhost = 'http://localhost:3000';
 
 
-var przyklad_id_postu = "58875ecaee5ec008a8188601";
-var przyklad_id_autora = "5885e2a4bcf6de07ece716b2";
+var przyklad_id_postu = '58875ecaee5ec008a8188601';
+var przyklad_id_autora = '5885e2a4bcf6de07ece716b2';
 
 var mongoose = require('mongoose');
 
@@ -63,15 +63,15 @@ describe('uzytkownik', function(done) {
 
   it('uzytkownik zostal zdefiniowany', function(done) { 
     wagner.invoke((Uzytkownicy) => {
-        var u = new Uzytkownicy({imie: "Andrzej", nazwisko: "Kowalski", passwordhash: "jsjhjhhj"});
-        assert.isDefined(u, "Uzytkownik zostal zdefiniowany");
+        var u = new Uzytkownicy({imie: 'Andrzej', nazwisko: 'Kowalski', passwordhash: 'jsjhjhhj'});
+        assert.isDefined(u, 'Uzytkownik zostal zdefiniowany');
         done();
     }).catch( (e) => done(e) ); 
   });
 
   it('validacja konczy sie bledem jesli nazwa nie zostalo zdefiniowane', function(done) { 
     wagner.invoke((Uzytkownicy) => {
-        var u = new Uzytkownicy({imie: "Andrzej", nazwisko: "Kowalski", passwordhash: "jsjhjhhj"});
+        var u = new Uzytkownicy({imie: 'Andrzej', nazwisko: 'Kowalski', passwordhash: 'jsjhjhhj'});
         u.validate(function(err) {
             expect(err.errors.nazwa).to.exist;
             done();
@@ -81,7 +81,7 @@ describe('uzytkownik', function(done) {
 
   it('validacja konczy sie bledem jesli passwordhash nie zostalo zdefiniowane', function(done) { 
     wagner.invoke((Uzytkownicy) => {
-    var u = new Uzytkownicy({nazwa: "Halabardnik", nazwisko: "Kowalski",  });
+    var u = new Uzytkownicy({nazwa: 'Halabardnik', nazwisko: 'Kowalski',  });
         u.validate(function(err) {
             expect(err.errors.passwordhash).to.exist;
             done();
@@ -92,7 +92,7 @@ describe('uzytkownik', function(done) {
 
   it('testuj zwieksz licznik liczbe postow uzytkownika' , (done) => {
     wagner.invoke((Uzytkownicy) => {
-      var u = new Uzytkownicy({nazwa: "Lucznik", nazwisko: "Starsz", });
+      var u = new Uzytkownicy({nazwa: 'Lucznik', nazwisko: 'Starsz', });
       expect(u.liczba_postow).to.exist;
       var liczba_postow_then = u.liczba_postow;
       u.zwiekszLicznikLiczbaPostow();
@@ -106,8 +106,8 @@ describe('uzytkownik', function(done) {
 describe('tworzenie tematu', function(done) {
   it('walidacja tematu' , (done) => {
     wagner.invoke((Tematy) => {
-        var u = new Tematy({tytul: "Frank Herberts Quotes" });
-        assert.isDefined(u, "Temat zostal zdefiniowany");
+        var u = new Tematy({tytul: 'Frank Herberts Quotes' });
+        assert.isDefined(u, 'Temat zostal zdefiniowany');
         done();
     }).catch( (e) => done(e) ); 
   });
@@ -115,7 +115,7 @@ describe('tworzenie tematu', function(done) {
 
   it('walidacja tematu' , (done) => {
     wagner.invoke((Tematy) => {
-        var u = new Tematy({tytul: "Frank Herberts Quotes" });
+        var u = new Tematy({tytul: 'Frank Herberts Quotes' });
         u.validate(function(err) {
             expect(err).not.to.exist;
             done();
@@ -137,7 +137,7 @@ describe('tworzenie tematu', function(done) {
 
   it('wykryj ze nie podano nie istniejacy parent tematu' , (done) => {
     wagner.invoke((Tematy) => {
-        var u = new Tematy({tytul: "Frank Herberts Quotes III", parent: 0});
+        var u = new Tematy({tytul: 'Frank Herberts Quotes III', parent: 0});
         u.validate(function(err) {
             expect(err.errors.parent).to.exist;
             done();
@@ -148,13 +148,13 @@ describe('tworzenie tematu', function(done) {
 
   it(' Temat prawdz czy dziala fukcja dodaj post', (done) => {
     wagner.invoke((Tematy) => {
-        var u = new Tematy({tytul: "Frank Herberts Quotes IV"});
-        assert.isDefined(u, "Temat zostal zdefiniowany");
+        var u = new Tematy({tytul: 'Frank Herberts Quotes IV'});
+        assert.isDefined(u, 'Temat zostal zdefiniowany');
         const testowane_id_postu = przyklad_id_postu;
 
 
         u.dodajPost(testowane_id_postu);
-        assert.isDefined(u, "Temat zostal zdefiniowany");
+        assert.isDefined(u, 'Temat zostal zdefiniowany');
         // expect(u.posty2).to.exist;
         expect(u.posty).to.include( testowane_id_postu);
         u.validate(function(err) {
@@ -183,7 +183,7 @@ describe('uzytkownik GET', function(done) {
       expect(200).
       expect('Content-Type', 'application/json')
       .end(function(err, res) {
-        res.body.should.have.property("imie");
+        res.body.should.have.property('imie');
         done();
     });
   });
@@ -197,11 +197,11 @@ describe('prosty POST, odczyt i zapis uzytkownika do bazy danych', () => {
   it('powinno odczytac prosty przeslanie POST', (done) => {
    
     var uzytkownik_Wyslany_Text =  {
-      "nazwa": "testuje nazwa",
-      "imie": "Ludwik XIV",
-      "nazwisko": "Krol Francji",
-      "email":  "ludwiczek@wersal.fr",
-      "passwordhash": "madamePompadur"
+      'nazwa': 'testuje nazwa',
+      'imie': 'Ludwik XIV',
+      'nazwisko': 'Krol Francji',
+      'email':  'ludwiczek@wersal.fr',
+      'passwordhash': 'madamePompadur'
     };
 
     request(myLocalhost)
@@ -209,14 +209,14 @@ describe('prosty POST, odczyt i zapis uzytkownika do bazy danych', () => {
       .send(uzytkownik_Wyslany_Text)
       .expect(200)
       .expect( (res) => {
-        res.body.should.have.property("imie");
+        res.body.should.have.property('imie');
       })
       .end((err, res) => {
           if(err) {
             return done(err);
           } else {
-            res.body.should.have.property("imie");
-            res.body.nazwa.should.be.equal("testuje nazwa");
+            res.body.should.have.property('imie');
+            res.body.nazwa.should.be.equal('testuje nazwa');
 
             done();
           }
@@ -230,11 +230,11 @@ describe('prosty POST, odczyt i zapis uzytkownika do bazy danych', () => {
  it('powinien odczytac zapisanego uzytkownika', (done) => {
 
    var uzytkownik_Wyslany_Text =  {
-      "nazwa": "testuje nazwa",
-      "imie": "Napoleon",
-      "nazwisko": "Cesarz Francji",
-      "email":  "napoleon@wersal.fr",
-      "passwordhash": "Vive_la_France"
+      'nazwa': 'testuje nazwa',
+      'imie': 'Napoleon',
+      'nazwisko': 'Cesarz Francji',
+      'email':  'napoleon@wersal.fr',
+      'passwordhash': 'Vive_la_France'
     };
 
 
@@ -243,14 +243,14 @@ describe('prosty POST, odczyt i zapis uzytkownika do bazy danych', () => {
     .send(uzytkownik_Wyslany_Text)
     .expect(200)
     .expect( (res) => {
-      res.body.should.have.property("imie");
+      res.body.should.have.property('imie');
     })
     .end((err, res) => {
         if(err) {
           return done(err);
         } else {
-          res.body.should.have.property("imie");
-          res.body.should.have.property("_id");
+          res.body.should.have.property('imie');
+          res.body.should.have.property('_id');
 
           const id = res.body._id;
 // 
@@ -261,15 +261,15 @@ describe('prosty POST, odczyt i zapis uzytkownika do bazy danych', () => {
             expect(200).
             expect('Content-Type', 'application/json')
             .end(function(err, res) {
-              res.body.should.have.property("nazwa");
-              res.body.should.have.property("imie");
-              res.body.should.have.property("nazwisko");
-              res.body.should.have.property("posty");
-              res.body.should.have.property("data");
+              res.body.should.have.property('nazwa');
+              res.body.should.have.property('imie');
+              res.body.should.have.property('nazwisko');
+              res.body.should.have.property('posty');
+              res.body.should.have.property('data');
 
-              res.body.should.not.have.property("passwordhash");
+              res.body.should.not.have.property('passwordhash');
 
-              res.body.should.have.property("posty").with.lengthOf(0);
+              res.body.should.have.property('posty').with.lengthOf(0);
 
               res.body.nazwa.should.be.equal(uzytkownik_Wyslany_Text.nazwa);
               res.body.imie.should.be.equal(uzytkownik_Wyslany_Text.imie);
@@ -287,11 +287,11 @@ describe('prosty POST, odczyt i zapis uzytkownika do bazy danych', () => {
   it('czy delete uzytkownik dziala', (done) => {
 
    var uzytkownik_Wyslany_Text =  {
-      "nazwa": "testuje delete nazwa",
-      "imie": "Karol",
-      "nazwisko": "Cesarz Niemiec, Krol Aragoni i Kastyli...",
-      "email":  "karol@madryt.hr",
-      "passwordhash": "La Caramba"
+      'nazwa': 'testuje delete nazwa',
+      'imie': 'Karol',
+      'nazwisko': 'Cesarz Niemiec, Krol Aragoni i Kastyli...',
+      'email':  'karol@madryt.hr',
+      'passwordhash': 'La Caramba'
     };
 
   request(myLocalhost)
@@ -299,7 +299,7 @@ describe('prosty POST, odczyt i zapis uzytkownika do bazy danych', () => {
     .send(uzytkownik_Wyslany_Text)
     .expect(200)
     .expect( (res) => {
-      res.body.should.have.property("_id");
+      res.body.should.have.property('_id');
 
     }).end( (err, res) => {
 
@@ -327,7 +327,7 @@ var czyPostDodanyDoTematu = (post_id, temat_id, done, url) => {
             expect('Content-Type', 'application/json')
             .end((err, res) => { 
               res.body.should.have.property('posty');
-              assert(res.body.posty.includes(post_id), "nie id w temacie");
+              assert(res.body.posty.includes(post_id), 'nie id w temacie');
               done();
             });
 
@@ -338,10 +338,10 @@ describe('prosty POST, odczyt i zapis tresci Postu do bazy danych', () => {
 
   it('powinien odczytac zapisany post', (done) => {
    var wyslany_Post =  {
-      "id_autora": przyklad_id_autora,
-      "tytul": "Miecz przeznaczenia",
-      "tresc": "Na moim sihillu – warknął Zoltan, ",
-      "temat" : "58872530ec1f86052bb1d97d"
+      'id_autora': przyklad_id_autora,
+      'tytul': 'Miecz przeznaczenia',
+      'tresc': 'Na moim sihillu – warknął Zoltan, ',
+      'temat' : '58872530ec1f86052bb1d97d'
     };
 
   request(myLocalhost)
@@ -349,15 +349,15 @@ describe('prosty POST, odczyt i zapis tresci Postu do bazy danych', () => {
     .send(wyslany_Post)
     .expect(200)
     .expect( (res) => {
-      res.body.should.have.property("_id");
-      res.body.should.have.property("tresc");
-      res.body.should.have.property("tytul");
+      res.body.should.have.property('_id');
+      res.body.should.have.property('tresc');
+      res.body.should.have.property('tytul');
     })
     .end((err, res) => {
         if(err) {
           return done(err);
         } else {
-          res.body.should.have.property("_id");
+          res.body.should.have.property('_id');
 
           const id_nowy_post = res.body._id;
 
@@ -368,10 +368,10 @@ describe('prosty POST, odczyt i zapis tresci Postu do bazy danych', () => {
             expect(200).
             expect('Content-Type', 'application/json')
             .end(function(err, res) {
-              res.body.should.have.property("tytul");
-              res.body.should.have.property("tresc");
-             res.body.should.have.property("id_autora");
-             res.body.should.have.property("temat");
+              res.body.should.have.property('tytul');
+              res.body.should.have.property('tresc');
+             res.body.should.have.property('id_autora');
+             res.body.should.have.property('temat');
 
              res.body.temat.should.be.equal(wyslany_Post.temat);
               res.body.tresc.should.be.equal(wyslany_Post.tresc);
@@ -387,10 +387,10 @@ describe('prosty POST, odczyt i zapis tresci Postu do bazy danych', () => {
   it('czy delete postu dziala', (done) => {
 
    var wyslany_Post =  {
-      "id_autora": przyklad_id_autora,
-      "tytul": "Wieza Jaskulki",
-      "tresc": "Jest wodka, ",
-      "temat" : "58872530ec1f86052bb1d97d"
+      'id_autora': przyklad_id_autora,
+      'tytul': 'Wieza Jaskulki',
+      'tresc': 'Jest wodka, ',
+      'temat' : '58872530ec1f86052bb1d97d'
     };
 
   request(myLocalhost)
@@ -398,9 +398,9 @@ describe('prosty POST, odczyt i zapis tresci Postu do bazy danych', () => {
     .send(wyslany_Post)
     .expect(200)
     .expect( (res) => {
-      res.body.should.have.property("_id");
-      res.body.should.have.property("tresc");
-      res.body.should.have.property("tytul");
+      res.body.should.have.property('_id');
+      res.body.should.have.property('tresc');
+      res.body.should.have.property('tytul');
     }).end( (err, res) => {
 
       var id_postu = res.body._id;
@@ -422,11 +422,11 @@ describe('prosty POST, odczyt i zapis tresci Postu do bazy danych', () => {
 
 describe('zwieszk o jeden liczbe postow uzytkownika przy zapisie nowego postu', () => {
   it('zwieszk o jeden liczbe postow przy zapisie', (done) => {
-    const id_autora = "5885e2a4bcf6de07ece716b2";
+    const id_autora = '5885e2a4bcf6de07ece716b2';
     var wyslany_Post =  {
-        "id_autora": id_autora,
-        "tytul": "Miecz przeznaczenia",
-        "tresc": "Na moim sihillu – warknął Zoltan, "
+        'id_autora': id_autora,
+        'tytul': 'Miecz przeznaczenia',
+        'tresc': 'Na moim sihillu – warknął Zoltan, '
       };
 
       var poczatkowa_liczba_postow;
@@ -437,8 +437,8 @@ describe('zwieszk o jeden liczbe postow uzytkownika przy zapisie nowego postu', 
       expect(200).
       expect('Content-Type', 'application/json')
       .end(function(err, res) {
-        res.body.should.have.property("_id");
-        res.body.should.have.property("liczba_postow");
+        res.body.should.have.property('_id');
+        res.body.should.have.property('liczba_postow');
         poczatkowa_liczba_postow = res.body.liczba_postow;
     });
 
@@ -460,8 +460,8 @@ describe('zwieszk o jeden liczbe postow uzytkownika przy zapisie nowego postu', 
                 expect(200).
                 expect('Content-Type', 'application/json')
                 .end(function(err, res) {
-                  res.body.should.have.property("_id");
-                  res.body.should.have.property("liczba_postow");
+                  res.body.should.have.property('_id');
+                  res.body.should.have.property('liczba_postow');
                   res.body.liczba_postow.should.be.equal(poczatkowa_liczba_postow +1);  
                   done();
               });
@@ -483,11 +483,11 @@ describe('prosty POST, odczyt i zapis tematu do bazy danych', () => {
 
   it('utworz nowy temat i go odczytaj', (done) => {
    
-    const id_autora = "5885e2a4bcf6de07ece716b2";
+    const id_autora = '5885e2a4bcf6de07ece716b2';
 
     var uzytkownik_Wyslany_Text =  {
-      "tytul": "cytaty ksiazkowe",
-      "id_autora": id_autora
+      'tytul': 'cytaty ksiazkowe',
+      'id_autora': id_autora
     };
 
     request(myLocalhost)
@@ -495,15 +495,15 @@ describe('prosty POST, odczyt i zapis tematu do bazy danych', () => {
       .send(uzytkownik_Wyslany_Text)
       .expect(200)
       .expect( (res) => {
-        res.body.should.have.property("tytul");
+        res.body.should.have.property('tytul');
       })
       .end((err, res) => {
           if(err) {
             return done(err);
           } else {
-            res.body.should.have.property("_id");
-            res.body.should.have.property("tytul");
-            res.body.should.have.property("data_utworzenia");
+            res.body.should.have.property('_id');
+            res.body.should.have.property('tytul');
+            res.body.should.have.property('data_utworzenia');
             res.body.tytul.should.be.equal(uzytkownik_Wyslany_Text.tytul);
 
             const id_tematu = res.body._id
@@ -513,9 +513,9 @@ describe('prosty POST, odczyt i zapis tematu do bazy danych', () => {
             expect(200).
             expect('Content-Type', 'application/json')
             .end(function(err, res) {
-              res.body.should.have.property("_id");
-              res.body.should.have.property("id_autora");
-              res.body.should.have.property("tytul");
+              res.body.should.have.property('_id');
+              res.body.should.have.property('id_autora');
+              res.body.should.have.property('tytul');
               done();
           });
         }        
@@ -529,14 +529,14 @@ describe('Testowanie rodzic i potemek przy tworzeniu tematu', () => {
   it('Powiennien przy tworzeniu nowego tematu, dodac id nowgo tematu do tablicy jego przodka', (done) => {
    
     var temat_rodzic =  {
-      "tytul": "Do testowania",
-      "id_autora": przyklad_id_autora
+      'tytul': 'Do testowania',
+      'id_autora': przyklad_id_autora
     };
 
 
     var temat_potomek =  {
-      "tytul": "Potomek",
-      "id_autora": przyklad_id_autora
+      'tytul': 'Potomek',
+      'id_autora': przyklad_id_autora
     };
 
     request(myLocalhost)
@@ -544,13 +544,13 @@ describe('Testowanie rodzic i potemek przy tworzeniu tematu', () => {
       .send(temat_rodzic)
       .expect(200)
       .expect( (res) => {
-        res.body.should.have.property("_id");
+        res.body.should.have.property('_id');
       })
       .end((err, res) => {
           if(err) {
             return done(err);
           } else {
-            res.body.should.have.property("_id");
+            res.body.should.have.property('_id');
 
             const id_tematu_rodzica = res.body._id;
             temat_potomek.parent = id_tematu_rodzica;
@@ -561,7 +561,7 @@ describe('Testowanie rodzic i potemek przy tworzeniu tematu', () => {
             .send(temat_potomek)
             .expect(200)
             .expect( (res) => {
-              res.body.should.have.property("_id");
+              res.body.should.have.property('_id');
             })            
             .end((err, res) => {
               if(err) {
@@ -574,8 +574,8 @@ describe('Testowanie rodzic i potemek przy tworzeniu tematu', () => {
                     .get('/temat/id/'+id_tematu_rodzica)
                     .expect(200)
                     .end((err, res) => {
-                      res.body.should.have.property("_id");
-                      res.body.should.have.property("ancestors");
+                      res.body.should.have.property('_id');
+                      res.body.should.have.property('ancestors');
                       res.body.ancestors.should.be.a('array');
                       assert(res.body.ancestors.includes(id_tematu_potomka));
                       done();
@@ -591,8 +591,8 @@ describe('Testowanie rodzic i potemek przy tworzeniu tematu', () => {
   it('czy delete tematu dziala', (done) => {
 
     var temat_rodzic =  {
-      "tytul": "Do testowania tematu",
-      "id_autora": przyklad_id_autora
+      'tytul': 'Do testowania tematu',
+      'id_autora': przyklad_id_autora
     };
 
   request(myLocalhost)
@@ -600,7 +600,7 @@ describe('Testowanie rodzic i potemek przy tworzeniu tematu', () => {
     .send(temat_rodzic)
     .expect(200)
     .expect( (res) => {
-      res.body.should.have.property("_id");
+      res.body.should.have.property('_id');
 
     }).end( (err, res) => {
 
@@ -644,7 +644,7 @@ describe('uzytkownik zapis do bazy danych', function() {
     db.on('error', console.error.bind(console, 'connection error:'));
     db.once('open', function(done) {
       
-      var uzytkownik= new Uzytkownicy({nazwa : 'testKrol', imie: 'Jagiello', nazwisko: "Pierwszy", email: "jagielo@krakow.pl", passwordhash: "hhadjdha2"});
+      var uzytkownik= new Uzytkownicy({nazwa : 'testKrol', imie: 'Jagiello', nazwisko: 'Pierwszy', email: 'jagielo@krakow.pl', passwordhash: 'hhadjdha2'});
     
 
     uzytkownik.save(function (err, uzytkownikZapisany) {
