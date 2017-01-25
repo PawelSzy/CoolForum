@@ -1,6 +1,6 @@
 module.exports = function(wagner, app) {
 	
-	
+	var _ = require('lodash');
 	
   
   //route - pobierz uzytkownika i zwroc jego dane w postci JSON
@@ -72,7 +72,7 @@ module.exports = function(wagner, app) {
             const id = req.params.id
             Uzytkownicy.findByIdAndRemove(id, (error, deleteResponse) => {
                 if(error) {
-                    return error
+                    return error;
                 }
                 else {
                     res.json(deleteResponse);
@@ -81,6 +81,37 @@ module.exports = function(wagner, app) {
         }
     }));		
 		
-		
+	app.patch('/uzytkownik/id/:id',	wagner.invoke( (Uzytkownicy) => {
+        return (req, res) => {
+
+            try {
+                uzytkownik = new Uzytkownicy({
+                    nazwa : req.body.nazwa, 
+                    imie: req.body.imie, 
+                    nazwisko: req.body.nazwisko, 
+                    email: req.body.email, 
+                    passwordhash: req.body.passwordhash,
+                });
+            } catch(e) {
+                return res.
+                    status(status.BAD_REQUEST)
+                    .json({error: "Nie mozna modyfikowac uzytkownika"});
+            }
+
+
+
+            const id = req.params.id;
+            const body = _.pick(req.body, ['nazwa', 'imie', 'nazwisko', 'email', 'passwordhash']);
+
+            Uzytkownicy.findByIdAndUpdate(id, {$set: body}, {new: true}, (error, updateResponse) => {
+                if(error) {
+                    return error;
+                }
+                else {
+                    res.json(updateResponse);
+                }; 
+            });
+        };
+    }));
 		
 }

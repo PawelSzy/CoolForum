@@ -317,6 +317,68 @@ describe('prosty POST, odczyt i zapis uzytkownika do bazy danych', () => {
   });
 
 
+
+  it('czy patch uzytkownika  (zmien istniejacego uzytkownika) dziala', (done) => {
+
+   var uzytkownik_Wyslany_Text =  {
+      'nazwa': 'testuje path',
+      'imie': 'Karol V',
+      'nazwisko': 'Cesarz Niemiec, Krol Aragoni i Kastyli...',
+      'email':  'karol@madryt.hr',
+      'passwordhash': 'La Caramba, la tortilla'
+    };
+  
+    request(myLocalhost)
+      .post('/uzytkownik/utworz')
+      .send(uzytkownik_Wyslany_Text)
+      .expect(200)
+      .expect( (res) => {
+        res.body.should.have.property('_id');
+
+      }).end( (err, res) => { 
+        if(err) {
+          return done(err);
+        };
+    
+        var id_uzytkownika= res.body._id;
+
+        const zmieniona_nazwa = 'zmieniony teks'
+        const zmienione_imie = "Charles V";
+
+        uzytkownik_Wyslany_Text.nazwa = zmieniona_nazwa;
+        uzytkownik_Wyslany_Text.imie = zmienione_imie;
+
+
+         request(myLocalhost)
+            .patch('/uzytkownik/id/' + id_uzytkownika)
+            .send(uzytkownik_Wyslany_Text)
+            .end ( (err, res) => {
+                if(err) {
+                  return done(err);
+                };
+  
+                res.body.should.have.property('_id');
+                res.body.should.have.property('nazwa');
+                res.body.should.have.property('imie');
+
+                 request(myLocalhost)
+                  .get('/uzytkownik/id/'+id_uzytkownika)
+                  .end( (err, res) => {
+                     if(err) {
+                      return done(err);
+                    };
+                      res.body.should.have.property('_id');
+                      res.body.should.have.property('nazwa');
+                      res.body.should.have.property('imie');
+                      res.body.imie.should.be.equal(zmienione_imie);
+                      res.body.nazwa.should.be.equal(zmieniona_nazwa);
+                      done();
+
+                  });
+            });
+      });
+  });
+
 });
 
 
@@ -416,7 +478,9 @@ describe('prosty POST, odczyt i zapis tresci Postu do bazy danych', () => {
     });
   });
 
+  // it('czy patch postu  (zmien istniejacy post) dziala', (done) => {
 
+  // )};
 });
 
 
