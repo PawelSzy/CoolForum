@@ -36,6 +36,11 @@ schema.method('dodajAncestors', function (idNowegoPodtematu)  {
     this.ancestors.push(idNowegoPodtematu);
 });
 
+schema.method('usunAncestors', function (idAncestor)  {
+    this.ancestors = this.ancestors.filter(item => item !== idAncestor);
+});
+
+
 schema.method('dodajPost', function (idPostu)  {
     this.posty.push(idPostu);
 });

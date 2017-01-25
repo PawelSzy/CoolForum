@@ -13,6 +13,39 @@ module.exports = function(wagner, app) {
 		});
 	};
 
+
+
+	var wykasujPodtematy =(id_rodzica) => {
+		wagner.invoke( (Tematy) => {
+			Tematy.findById(id_rodzica, (error, temat) => {
+				var potomkowie = temat.ancestors;
+				potomkowie.foreach( (item, index) => {
+					Tematy.findByIdAndRemove(id, (error, deleteResponse) => {
+						if(error) {
+							return error;
+						}
+					});
+				});
+			});
+		});
+	};
+
+
+
+	var wykasuTematURodzica = (id_potomka) => {	
+		wagner.invoke( (Tematy) => {
+			Tematy.findById(id_potomka, (error, temat_potomek) => {
+				if (temat_potomek.parent) {
+					var id_rodzica = temat_potomek.parent
+					Tematy.findById(id_rodzica, (error, temat_rodzic) => {
+						temat_rodzic.usunAncestors(id_potomka);
+					});
+				};
+			});
+		});	
+	};
+
+
 	//route - pobierz uzytkownika i zwroc jego dane w postci JSON
 	// @param - get z id uzytkownika w bazie danych
 	// @return - JSON - dane uzytkowniak
@@ -78,9 +111,11 @@ module.exports = function(wagner, app) {
 		return (req, res) => {
 
 			const id = req.params.id
+			// wykasujPodtematy(id);
+			wykasuTematURodzica(id);
 			Tematy.findByIdAndRemove(id, (error, deleteResponse) => {
 				if(error) {
-					return error
+					return error;
 				}
 				else {
 					res.json(deleteResponse);

@@ -3,8 +3,10 @@ Do zmiany
 post - data ostatniej modyfikacji
 
 Zmien
-Delete - dodaj zmien liczbe postow autora, usun posty z listy tematy przy kasowaniu postu,
+Delete
 usun parent i potomkow przy usuwaniu tematow
+usun wszystkie posty przy usuwaniu tematu
+
 
 Angular JS
 Authentykacja
