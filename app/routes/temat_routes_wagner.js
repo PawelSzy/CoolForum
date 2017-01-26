@@ -1,5 +1,7 @@
 module.exports = function(wagner, app) {
 
+	var _ = require('lodash');
+
 	var wstawNowegoPotomka = (id_rodzica, id_potomka) => {
 		wagner.invoke( (Tematy) => {
 			try {
@@ -124,6 +126,38 @@ module.exports = function(wagner, app) {
 		}
 	}));
 	
+
+app.patch('/temat/id/:id',	wagner.invoke( (Tematy) => {
+        return (req, res) => {
+
+            try {
+                temat = new Tematy({
+                    tytul : req.body.tytul, 
+                    data_ostatniej_modyfikacji: JSON.stringify({ type: Date, default: Date.now })
+                });
+            } catch(e) {
+                return res.
+                    status(status.BAD_REQUEST)
+                    .json({error: "Nie mozna modyfikowac tematu"});
+            }
+
+            const id = req.params.id;
+
+            var body = _.pick(req.body, ['tytul']);
+
+			body['data_ostatniej_modyfikacji'] =  new Date().toString();
+
+            Tematy.findByIdAndUpdate(id, {$set: body}, {new: true}, (error, updateResponse) => {
+                if(error) {
+                    return error
+                }
+                else {
+                    return res.json(updateResponse);
+                }; 
+            });
+        };
+    }));
+
 	
 }
 

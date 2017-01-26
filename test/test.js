@@ -747,7 +747,63 @@ describe('Testowanie rodzic i potemek przy tworzeniu tematu', () => {
     });
   });
 
+  it('czy patch temat  (zmien istniejacy temat) dziala', (done) => {
 
+   var temat_Wyslany_Text =  {
+      'tytul': 'testuje post',
+    };
+  
+    request(myLocalhost)
+      .post('/temat/utworz')
+      .send(temat_Wyslany_Text)
+      .expect(200)
+      .expect( (res) => {
+        res.body.should.have.property('_id');
+
+      }).end( (err, res) => { 
+        if(err) {
+          return done(err);
+        };
+    
+        var id_postu= res.body._id;
+
+        const zmieniona_tytul = 'zmieniony temat';
+        const data_modyfikacji = JSON.stringify({ type: Date, default: Date.now });
+
+        temat_Wyslany_Text.tytul = zmieniona_tytul;
+        temat_Wyslany_Text.data_ostatniej_modyfikacji = data_modyfikacji;
+
+         request(myLocalhost)
+            .patch('/temat/id/' + id_postu)
+            .send(temat_Wyslany_Text)
+            .end ( (err, res) => {
+                if(err) {
+                  return done(err);
+                };
+                res.body.should.have.property('_id');
+
+                 request(myLocalhost)
+                  .get('/temat/id/'+id_postu)
+                  .end( (err, res) => {
+                     if(err) {
+                      return done(err);
+                    };
+                      res.body.should.have.property('_id');
+                      res.body.should.have.property('tytul');
+                      res.body.should.have.property('posty');
+                      // res.body.should.have.property('ancestors');
+                      // res.body.should.have.property('parent');
+
+
+                      res.body.should.have.property('data_ostatniej_modyfikacji');
+                      res.body.tytul.should.be.equal(zmieniona_tytul);
+                      
+                      done();
+
+                  });
+            });
+      });
+  });
 
 
 });

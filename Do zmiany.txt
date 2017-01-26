@@ -1,8 +1,9 @@
 Do zmiany
 
-post - data ostatniej modyfikacji
 
 Zmien
+
+
 Test przy Delete
 	usun parent i potomkow przy usuwaniu tematow
 	usun wszystkie posty przy usuwaniu tematu
