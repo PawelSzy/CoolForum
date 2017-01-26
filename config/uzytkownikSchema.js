@@ -3,14 +3,16 @@ var ObjectId = require('mongodb').ObjectID;
 
 var uzytkownikSchema = {
   // _id: { type: String },
-  nazwa: { type: String, required: true },
-  passwordhash: { type: String, required: true},
+  nazwa: { type: String, required: true, minlength: 1 },
+  passwordhash: { type: String, required: true, minlength: 1},
   imie: { type: String},
   nazwisko: { type: String}, 
   email: {
     type: String,
     match: /.+@.+\..+/,
-    lowercase: true
+    lowercase: true,
+    minlength: 1,
+    unique: true
   },
   data: { type: Date, default: Date.now },
   posty: [{ type : mongoose.Schema.Types.ObjectId, ref: 'Post' }],

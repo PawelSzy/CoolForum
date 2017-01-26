@@ -1,9 +1,6 @@
 Do zmiany
 
 
-Zmien
-
-
 Test przy Delete
 	usun parent i potomkow przy usuwaniu tematow
 	usun wszystkie posty przy usuwaniu tematu
